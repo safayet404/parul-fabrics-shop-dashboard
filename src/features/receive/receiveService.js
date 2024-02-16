@@ -2,8 +2,7 @@ import axios from "axios";
 import { base_url } from "../../utils/base_url";
 import { config } from "../../utils/axiosConfig";
 
-import Alert from 'react-s-alert';
-import 'react-s-alert/dist/s-alert-default.css';
+
 const addReceiveData = async (receiveData) =>{
     try {
         const response = await axios.post(`${base_url}receive/add-receive-data`, receiveData);
