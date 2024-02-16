@@ -1,21 +1,21 @@
 import axios from "axios";
 import { base_url } from "../../utils/base_url";
 import { config } from "../../utils/axiosConfig";
-import cogoToast from "cogo-toast";
 
-
-
+import Alert from 'react-s-alert';
+import 'react-s-alert/dist/s-alert-default.css';
 const addReceiveData = async (receiveData) =>{
     try {
         const response = await axios.post(`${base_url}receive/add-receive-data`, receiveData);
     
         if (response.status === 200) {
-          cogoToast.success("Receive Information Added Successfully !");
+            
+          
         }
         return response.data;
       } catch (error) {
         console.log(error)
-        cogoToast.error("Something Went Wrong !");
+        
       }
 }
 
@@ -26,7 +26,7 @@ const getAllReceiveData = async()=>{
      
     }catch(error)
     {
-        cogoToast.error("Something Went Wrong in Receive GET Receive Details !")
+        
     }
 }
 const getSingleReceiveData = async(id)=>{
@@ -36,7 +36,7 @@ const getSingleReceiveData = async(id)=>{
      
     }catch(error)
     {
-        cogoToast.error("Something Went Wrong  !")
+        
     }
 }
 const getRcvById = async(id)=>{
@@ -46,7 +46,7 @@ const getRcvById = async(id)=>{
      
     }catch(error)
     {
-        cogoToast.error("Something Went Wrong  !")
+       
     }
 }
 const deleteSingleReceiveData = async(id)=>{
@@ -54,14 +54,14 @@ const deleteSingleReceiveData = async(id)=>{
         const response = await axios.delete(`${base_url}receive/delete-single-receive-data/${id}`)
         if(response.status === 200)
         {
-          cogoToast.success("Deleted Successfully ")
+          
         }
         return response.data
 
      
     }catch(error)
     {
-        cogoToast.error("Something Went Wrong  !")
+       
     }
 }
 const updateSingleReceiveData = async(receive)=>{
@@ -73,14 +73,14 @@ const updateSingleReceiveData = async(receive)=>{
         })
         if(response.status === 200)
         {
-            cogoToast.success("Data Updated Successfully")
+            
         }
         return response.data
      
     }catch(error)
     {
         console.log(error);
-        cogoToast.error("Something Went Wrong eikahne  !")
+        
     }
 }
 

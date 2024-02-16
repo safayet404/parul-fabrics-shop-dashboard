@@ -1,14 +1,13 @@
 import axios from "axios";
 import { base_url } from "../../utils/base_url";
 
-import cogoToast from "cogo-toast";
 
 const getBalance = async () => {
   try {
     const response = await axios.get(`${base_url}balance/get-all-balance`);
     return response.data;
   } catch (error) {
-    cogoToast.error("Something Went Wrong here !");
+    
     console.log(error);
   }
 };
@@ -19,7 +18,7 @@ const getSingleBalance = async (id) => {
     );
     return response.data;
   } catch (error) {
-    cogoToast.error("Something Went Wrong !");
+    
   }
 };
 const createBalance = async (balance) => {
@@ -28,9 +27,9 @@ const createBalance = async (balance) => {
     balance
   );
   if (response.status === 200) {
-    cogoToast.success("Balance Added Successfully !");
+   
   } else {
-    cogoToast.error("Something Went Wrong !");
+    
   }
   return response.data;
 };
@@ -44,9 +43,9 @@ const updateBalance = async (balance) => {
     }
   );
   if (response.status === 200) {
-    cogoToast.success("Balance Updated Successfully !");
+   
   } else {
-    cogoToast.error("Something Went Wrong !");
+   
   }
   return response.data;
 };
@@ -57,15 +56,15 @@ const deleteBalance = async (id) => {
             `${base_url}balance/delete-balance/${id}`
           );
           if (response.status === 200) {
-            cogoToast.success("Balance Deleted Successfully !");
+           
           } else {
-            cogoToast.error("Something Went Wrong !");
+           
           }
           return response.data;
 
     }catch(error)
     {
-        cogoToast.error("Something Went Wrong !")
+        
     }
   
 };

@@ -138,7 +138,7 @@ export const updateSingleReceiveData = createAsyncThunk("receive/update-single-r
           state.isLoading = false;
           state.isError = false;
           state.isSuccess = true;
-          state.updatedData = action.payload;
+          state.updatedReceivedData = action.payload;
         })
         .addCase(updateSingleReceiveData.rejected, (state, action) => {
           state.isLoading = false;
@@ -153,7 +153,7 @@ export const updateSingleReceiveData = createAsyncThunk("receive/update-single-r
           state.isLoading = false;
           state.isError = false;
           state.isSuccess = true;
-          state.deletedData = action.payload;
+          state.deletedRcvData = action.payload;
         })
         .addCase(deleteSingleReceiveData.rejected, (state, action) => {
           state.isLoading = false;

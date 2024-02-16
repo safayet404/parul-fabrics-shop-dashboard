@@ -159,8 +159,9 @@ const AddSell = () => {
   const receive_state = useSelector((state) => state.receive.singleReceiveData);
   console.log("rcv",receive_state);
   const customer_state = useSelector((state) => state.customer.singleCustomer);
-  const factory_state = useSelector((state) => state.factory.factories);
   const product_state = useSelector((state) => state.product.products);
+  const {createdReceiveData,deletedRcvData,updatedReceivedData} = useSelector((state) => state.receive);
+
 
   const sellData = [];
   for (let index = 0; sell_state?.length && index < sell_state.length; index++) {
@@ -217,7 +218,10 @@ const AddSell = () => {
       });
     }
   }
+  useEffect(()=>{
+    dispatch(getSingleReceiveData(getCustomerId))
 
+  },[createdReceiveData,deletedRcvData,updatedReceivedData])
   useEffect(() => {
     let sum = 0;
     for (let index = 0; index < sell_state.length; index++) {
@@ -258,6 +262,8 @@ const AddSell = () => {
       formik.resetForm();
     },
   });
+
+
   const RcvFormik = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -268,11 +274,11 @@ const AddSell = () => {
     },
     validationSchema: receiveSchema,
     onSubmit: (values) => {
-      dispatch(addReceiveData(values));
-      setTimeout(() => {
-        dispatch(getSingleReceiveData(getCustomerId));
-      }, 200);
-    navigate(`/admin/add-sells?${getCustomerId}`)
+     
+      
+     dispatch(addReceiveData(values));
+    
+
       RcvFormik.resetForm();
     },
   });

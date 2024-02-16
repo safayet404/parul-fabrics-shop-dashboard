@@ -1,6 +1,5 @@
 import axios from "axios";
 import { base_url } from "../../utils/base_url";
-import cogoToast from "cogo-toast";
 
 const createExpense = async(expenseData) =>{
     try{
@@ -8,13 +7,13 @@ const createExpense = async(expenseData) =>{
         
         if(response.status === 200)
         {
-            cogoToast.success("Expense Data Added Successfully")
+            
         }
         return response.data
 
     }catch(error)
     {
-        cogoToast.error("Something Went Wrong !")
+        
     }
 }
 
@@ -24,7 +23,7 @@ const getAllExpense = async()=>{
         return response.data
     }catch(error)
     {
-        cogoToast.error("Something Went Wront !")
+        
     }
 }
 
@@ -34,7 +33,7 @@ const getSingleExpense = async (id) =>{
         return response.data
     }catch(error)
     {
-        cogoToast.error("Something Went Wrong !")
+        
     }
 }
 
@@ -48,12 +47,12 @@ const updateExpense = async(expense)=>{
         })
         if(response.status === 200)
         {
-            cogoToast.success("Expense Updated Successfully")
+            
         }
         return response.data
     }catch(error)
     {
-        cogoToast.error("Something Went Wrong here !")
+        
     }
 }
 
@@ -63,11 +62,11 @@ const deleteExpense = async(id)=>{
 
         if(response.status === 200)
         {
-            cogoToast.success("Expense Data deleted Successfully")
+            
         }
     }catch(error)
     {
-        cogoToast.error("Something Went Wrong !")
+        
     }
 }
 

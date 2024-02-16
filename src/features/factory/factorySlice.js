@@ -1,6 +1,5 @@
 import { createAsyncThunk,createSlice,createAction } from "@reduxjs/toolkit";
 import factoryService  from "../factory/factoryService"
-import cogoToast from "cogo-toast";
 
 export const getFactories = createAsyncThunk("factory/all-factory",async(thunkAPI)=>{
 
@@ -19,7 +18,7 @@ export const createFactory= createAsyncThunk("factory/create-factory",async(fact
         return await factoryService.createFactory(factory)
     }catch(error)
     {
-        cogoToast.error("Somethiung went wr")
+       
         return thunkAPI.rejectWithValue(error)
     }
 })

@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import customerService from "./customerService";
-import cogoToast from "cogo-toast";
 
 export const getCustomers = createAsyncThunk(
   "customer/get-customers",

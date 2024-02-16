@@ -7,7 +7,7 @@ import {useNavigate} from "react-router-dom"
 import { useDispatch,useSelector } from "react-redux";
 import {login} from "../features/auth/authSlice"
 import {useEffect} from "react"
-import cogoToast from "cogo-toast";
+
 const Login = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()

@@ -1,6 +1,5 @@
 import axios from "axios";
 import { base_url } from "../../utils/base_url"
-import cogoToast from "cogo-toast";
 
 const getCustomers = async () => {
   const response = await axios.get(`${base_url}customer/get-all-customers`);
@@ -13,11 +12,11 @@ const createCustomer = async(customer)=>{
     const response = await axios.post(`${base_url}customer/create-customer`,customer)
     if(response.status === 200)
     {
-      cogoToast.success("Customer Created")
+      
     }
   }catch(error)
   {
-    cogoToast.error("Something Went Wrong !")
+    
   }
 }
 
@@ -28,7 +27,7 @@ const getSingleCustomer = async(id)=>{
 
   }catch(error)
   {
-    cogoToast.error("Something Went Wrong !")
+    
   }
 }
 const updateCustomer = async(customer) =>{
@@ -44,13 +43,13 @@ const updateCustomer = async(customer) =>{
     )
     if(response.status === 200)
     {
-      cogoToast.success("Customer Information is Updated")
+     
     }
     return response.data
 
   }catch(error)
   {
-    cogoToast.error("Something Went Wrong !")
+    
   }
   
 }
@@ -60,12 +59,12 @@ const deleteCustomer = async(id) =>{
     const response = await axios.delete(`${base_url}customer/delete-customer/${id}`)
     if(response.status === 200)
     {
-      cogoToast.success("Customer Deleted Successfully")
+      
     }
 
   }catch(error)
   {
-    cogoToast.error("Something Went Wrong!")
+    
   }
 }
 const customerService = {
