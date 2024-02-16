@@ -1,70 +1,145 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BsArrowDownRight } from "react-icons/bs";
 import { Column } from "@ant-design/plots";
 import { Table } from "antd";
-const Dashboard = () => {
+import { useDispatch, useSelector } from "react-redux";
+import { getAllSellDetails } from "../features/sell/sellSlice";
+import { getProducts } from "../features/product/productSlice";
+import ChangeDateFormat from "../components/ChangeDateFormat";
+import { getAllExpense } from "../features/expense/expenseSlice";
+import { getBalance } from "../features/balance/balanceSlice";
 
- 
-  const data = [
+const Dashboard = () => {
+  const [stock, setStock] = useState(null);
+  const [totalAmount, setTotalAmount] = useState(null);
+  const [rcvTotalAmount, setRcvTotalAmount] = useState(null);
+  const dispatch = useDispatch();
+
+  const columns = [
     {
-      type: "January",
-      sales: 138,
+      title: "Date",
+      dataIndex: "date",
+      key : "date"
+      
     },
     {
-      type: "February",
-      sales: 152,
+      title: "Description",
+      
+      key: "description",
     },
     {
-      type: "March",
-      sales: 261,
+      title: "Quantity",
+      
+      key: "quantity",
     },
     {
-      type: "April",
-      sales: 145,
-    },
-    {
-      type: "May",
-      sales: 148,
-    },
-    {
-      type: "June",
-      sales: 105,
-    },
-    {
-      type: "July",
-      sales: 124,
-    },
-    {
-      type: "August",
-      sales: 265,
-    },
-    {
-      type: "September",
-      sales: 147,
-    },
-    {
-      type: "October",
-      sales: 128,
-    },
-    {
-      type: "November",
-      sales: 138,
-    },
-    {
-      type: "December",
-      sales: 238,
+      title: "Price",
+      
+      key: "price",
     },
   ];
 
+
+  useEffect(() => {
+    dispatch(getAllSellDetails());
+  }, []);
+  useEffect(() => {
+    dispatch(getProducts());
+  }, []);
+  useEffect(() => {
+    dispatch(getAllExpense());
+  }, []);
+  useEffect(() => {
+    dispatch(getBalance());
+  }, []);
+  const product_state = useSelector((state) => state.product.products);
+  const sell_state = useSelector((state) => state.sell.sells);
+  const expense_state = useSelector((state) => state.expense.expenses);
+  const balance_state = useSelector((state) => state.balance.balances);
+
+  const productData = [];
+  const updatedProductQuantity = [];
+
+  for (let i = 0; i < product_state.length; i++) {
+    let remainQty = product_state[i].quantity;
+
+    for (let j = 0; j < sell_state.length; j++) {
+      if (product_state[i]._id === sell_state[j].description._id) {
+        remainQty -= sell_state[j].quantity;
+      }
+    }
+
+    productData.push({
+      stock: remainQty ? remainQty : product_state[i].quantity,
+    });
+    updatedProductQuantity.push(remainQty);
+  }
+  const sellData = [];
+  for (let index = 0; sell_state?.length && index < sell_state.length; index++) {
+   
+      sellData.push({
+        description: sell_state[index].description.title,
+        date: ChangeDateFormat(sell_state[index].date),
+        quantity: sell_state[index].quantity,
+        price: sell_state[index].price,
+        totalPrice: sell_state[index].totalPrice,
+       
+      });
+    
+  }
+  useEffect(() => {
+    let stockSum = 0;
+    for (let index = 0; index < updatedProductQuantity.length; index++) {
+      stockSum = stockSum + updatedProductQuantity[index];
+    }
+    setStock(stockSum);
+  }, [updatedProductQuantity]);
+
+  useEffect(() => {
+    let sum = 0;
+    for (let index = 0; index < balance_state.length; index++) {
+      sum = sum + balance_state[index].amount;
+      setRcvTotalAmount(sum);
+    }
+  }, [balance_state]);
+  useEffect(() => {
+    let sum = 0;
+    for (let index = 0; index < expense_state.length; index++) {
+      sum = sum + expense_state[index].amount;
+      setTotalAmount(sum);
+    }
+  }, [expense_state]);
+
+  const getTotalSalesByMonth = () => {
+    const salesByMonth = {};
+
+    sell_state.forEach((sell) => {
+      const date = new Date(sell.date);
+      const monthName = date.toLocaleString("default", { month: "long" });
+      const year = date.getFullYear();
+      const monthYearKey = `${monthName}-${year}`;
+
+      if (!salesByMonth[monthYearKey]) {
+        salesByMonth[monthYearKey] = 0;
+      }
+
+      salesByMonth[monthYearKey] += sell.totalPrice; // Assuming there is an amount field in your sell data
+    });
+
+    return Object.entries(salesByMonth).map(([monthYear, totalAmount]) => ({
+      monthYear,
+      totalAmount,
+    }));
+  };
+
+  const totalSalesByMonth = getTotalSalesByMonth();
+
   const config = {
-    data,
-    xField: "type",
-    yField: "sales",
+    data: totalSalesByMonth,
+    xField: "monthYear",
+    yField: "totalAmount",
     label: {
-      // 可手动配置 label 数据标签位置
       position: "middle",
-      // 'top', 'bottom', 'middle',
-      // 配置样式
       style: {
         fill: "#FFFFFF",
         opacity: 0.6,
@@ -73,7 +148,7 @@ const Dashboard = () => {
     xAxis: {
       label: {
         autoHide: true,
-        autoRotate: false,
+        autoRotate: true,
       },
     },
     meta: {
@@ -85,116 +160,43 @@ const Dashboard = () => {
       },
     },
   };
-  const columns = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
-     
-    },
-    {
-      title: 'Age',
-      dataIndex: 'age',
-      key: 'age',
-    },
-    {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address',
-    },
-   
-   
- 
-  ];
-  // const data1 = [
-  //   {
-  //     key: '1',
-  //     name: 'John Brown',
-  //     age: 32,
-  //     address: 'New York No. 1 Lake Park',
-      
-  //   },
-  //   {
-  //     key: '2',
-  //     name: 'Jim Green',
-  //     age: 42,
-  //     address: 'London No. 1 Lake Park',
-      
-  //   },
-  //   {
-  //     key: '3',
-  //     name: 'Joe Black',
-  //     age: 32,
-  //     address: 'Sydney No. 1 Lake Park',
-     
-  //   },
-  // ];
-  const data2 = []
 
-  for(let i=0; i<46; i++)
-  {
-    data2.push({
-      key : 1,
-      name : `Safayet Hossain ${i}`,
-      age : 32+i,
-      address : `Faidabad, Primary School Road ${i}`
-    })
-  }
   return (
     <div>
       <h3 className="mb-4">Dashboard</h3>
-
       <div className="d-flex justify-content-between align-items-center gap-3">
         <div className="d-flex justify-content-between align-items-end flex-grow-1 bg-white p-3 roudned-3">
           <div>
-            <p className="desc">Total</p>
-            <h4 className="mb-0 sub-title">$1100</h4>
+            <p className="desc">Total Balance</p>
+            <h4 className="mb-0 sub-title">{rcvTotalAmount - totalAmount}</h4>
           </div>
-          <div className="d-flex flex-column align-items-end">
-            <h6>
-              <BsArrowDownRight /> 32%
-            </h6>
-            <p className="mb-0  desc">Compared To April 2022</p>
+          <div className="d-flex flex-column align-items-end"></div>
+        </div>
+        <div className="d-flex justify-content-between align-items-end flex-grow-1 bg-white p-3 roudned-3">
+          <div>
+            <p className="desc">Total Product Stock</p>
+            <h4 className="mb-0 sub-title">{stock}</h4>
           </div>
         </div>
         <div className="d-flex justify-content-between align-items-end flex-grow-1 bg-white p-3 roudned-3">
           <div>
-            <p className="desc">Total</p>
-            <h4 className="mb-0 sub-title">$1100</h4>
+            <p className="desc">Users</p>
+            <h4 className="mb-0 sub-title">2 Person</h4>
           </div>
-          <div className="d-flex flex-column align-items-end">
-            <h6 className="red">
-              <BsArrowDownRight /> 32%
-            </h6>
-            <p className="mb-0  desc">Compared To April 2022</p>
-          </div>
-        </div>
-        <div className="d-flex justify-content-between align-items-end flex-grow-1 bg-white p-3 roudned-3">
-          <div>
-            <p className="desc">Total</p>
-            <h4 className="mb-0 sub-title">$1100</h4>
-          </div>
-          <div className="d-flex flex-column align-items-end">
-            <h6 className="green">
-              <BsArrowDownRight /> 32%
-            </h6>
-            <p className="mb-0 desc">Compared To April 2022</p>
-          </div>
+         
         </div>
       </div>
       <div className="mt-4">
-        <h3 className="mb-4">Income Statics</h3>
+        <h3 className="mb-4">Sell Statics</h3>
         <div>
           <Column {...config} />
         </div>
       </div>
 
       <div className="mt-4">
-        <h3 className="mb-4">Recent Orders</h3>
-        <Table columns={columns} dataSource={data2} ></Table>
+        <h3 className="mb-4">Recent Sells</h3>
+        <Table columns={columns} dataSource={sellData}></Table>
       </div>
-
-
     </div>
   );
 };

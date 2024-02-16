@@ -1,7 +1,7 @@
 import React from 'react'
 
 const CustomInput = (props) => {
-    const {type,label,i_id,i_class,name,val,placeholder,onChng,onBlr} = props
+    const {type,label,i_id,i_class,name,list,value,placeholder,onChange,onBlur} = props
   return (
     <div>
       <input
@@ -10,9 +10,10 @@ const CustomInput = (props) => {
         id={i_id}
         placeholder={placeholder}
         name={name}
-        value={val}
-        onChange={onChng}
-        onBlur={onBlr}
+        value={value}
+        onChange={onChange}
+        onBlur={onBlur}
+        list={list}
       />
       <label htmlFor={label}>{label}</label>
     </div>

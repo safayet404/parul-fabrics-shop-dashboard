@@ -11,7 +11,9 @@ import {
   AiFillFileAdd,
   AiOutlineMessage,
 } from "react-icons/ai";
-import { FaClipboardList, FaBlogger } from "react-icons/fa";
+
+
+
 import { IoIosNotifications } from "react-icons/io";
 import { FaPeopleGroup } from "react-icons/fa6";
 import { Outlet, useNavigate } from "react-router-dom";
@@ -29,8 +31,8 @@ const MainLayout = () => {
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="logo">
           <h1 className="text-white fs-5 text-center py-3 mb-0">
-            <span className="lg-logo">EpiGram</span>
-            <span className="sm-logo">EG</span>
+            <span className="lg-logo">PARUL FABRICS</span>
+            <span className="sm-logo">PF</span>
           </h1>
         </div>
 
@@ -50,101 +52,67 @@ const MainLayout = () => {
               icon: <TfiDashboard className="fs-4" />,
               label: "Dashboard",
             },
+          
+            {
+              key: "all-sell",
+              icon: <FaPeopleGroup className="fs-4" />,
+              label: "All Sell Data",
+            },
+            {
+              key: "all-receive",
+              icon: <FaPeopleGroup className="fs-4" />,
+              label: "All Receive Data",
+            },
+            {
+              key: "daily-expense",
+              icon: <FaPeopleGroup className="fs-4" />,
+              label: "Daily Expenses",
+            },
+            {
+              key: "stock",
+              icon: <FaPeopleGroup className="fs-4" />,
+              label: "Stock",
+            },
             {
               key: "customers",
               icon: <FaPeopleGroup className="fs-4" />,
               label: "Customers",
             },
             {
-              key: "catalog",
-              icon: <GiCatapult className="fs-4" />,
-              label: "Catalog",
-              children: [
-                {
-                  key: "product",
-                  icon: <AiFillFileAdd className="fs-4" />,
-                  label: "Add Product",
-                },
-                {
-                  key: "product-list",
-                  icon: <BsFillCartCheckFill className="fs-4" />,
-                  label: "Product List",
-                },
-                {
-                  key: "add-brand",
-                  icon: <AiFillFileAdd className="fs-4" />,
-                  label: "Add Brand",
-                },
-                {
-                  key: "brand-list",
-                  icon: <SiBrandfolder className="fs-4" />,
-                  label: "Brand List",
-                },
-                {
-                  key: "add-category",
-                  icon: <AiFillFileAdd className="fs-4" />,
-                  label: "Add Category",
-                },
-                {
-                  key: "category-list",
-                  icon: <LuLayoutList className="fs-4" />,
-                  label: "Category List",
-                },
-
-                {
-                  key: "add-color",
-                  icon: <AiFillFileAdd className="fs-4" />,
-                  label: "Add Color",
-                },
-                {
-                  key: "color-list",
-                  icon: <AiOutlineBgColors className="fs-4" />,
-                  label: "Color List",
-                },
-                {
-                  key: "add-cupon",
-                  icon: <GiTicket className="fs-4" />,
-                  label: "Add Cupon",
-                },
-              ],
+              key: "add-customers",
+              icon: <FaPeopleGroup className="fs-4" />,
+              label: "Add Customers",
             },
             {
-              key: "order",
-              icon: <FaClipboardList className="fs-4" />,
-              label: "Orders",
+              key: "product",
+              icon: <AiFillFileAdd className="fs-4" />,
+              label: "Add Product",
             },
             {
-              key: "blog",
-              icon: <FaBlogger className="fs-4" />,
-              label: "Blogs",
-              children: [
-                {
-                  key: "add-blog",
-                  icon: <AiFillFileAdd className="fs-4" />,
-                  label: "Add blog",
-                },
-                {
-                  key: "blog-list",
-                  icon: <FaBlogger className="fs-4" />,
-                  label: "Blog List",
-                },
-                {
-                  key: "add-blog-category",
-                  icon: <AiFillFileAdd className="fs-4" />,
-                  label: "Add Blog Category",
-                },
-                {
-                  key: "blog-category-list",
-                  icon: <FaBlogger className="fs-4" />,
-                  label: "Blog Category List",
-                },
-              ],
+              key: "product-list",
+              icon: <BsFillCartCheckFill className="fs-4" />,
+              label: "Product List",
             },
             {
-              key: "enquiries",
-              icon: <AiOutlineMessage className="fs-4" />,
-              label: "Enquery",
+              key: "add-mill",
+              icon: <BsFillCartCheckFill className="fs-4" />,
+              label: "Add Yarn & Bills Factory",
             },
+            {
+              key: "mills",
+              icon: <BsFillCartCheckFill className="fs-4" />,
+              label: "Yarn & Bills Factory",
+            },
+            // {
+            //   key: "catalog",
+            //   icon: <GiCatapult className="fs-4" />,
+            //   label: "Catalog",
+            //   children: [
+               
+               
+               
+            //   ],
+            // },
           ]}
         />
       </Sider>
@@ -214,6 +182,7 @@ const MainLayout = () => {
             background: colorBgContainer,
           }}
         >
+          
           <Outlet />
         </Content>
       </Layout>

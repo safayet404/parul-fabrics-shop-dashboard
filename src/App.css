@@ -10,7 +10,12 @@
 
 }
 
-
+.error{
+    color: red;
+    font-size: medium;
+    font-weight: 400 ;
+    margin-bottom: 20px;
+}
 .green{
     color: var(--color-47ad24);
 }
