@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import {
   createSellInfo,
   deleteSellData,
@@ -93,6 +93,7 @@ const AddSell = () => {
   const [rcvOpen, setRcvOpen] = useState(false);
   const [sellId, setSellId] = useState("");
   const [rcvId, setRcvId] = useState("");
+  const navigate = useNavigate()
   
   let dueOrBalance = totalAmount - rcvTotalAmount
   console.log(dueOrBalance);
@@ -271,6 +272,7 @@ const AddSell = () => {
       setTimeout(() => {
         dispatch(getSingleReceiveData(getCustomerId));
       }, 200);
+    navigate(`/admin/add-sells?${getCustomerId}`)
       RcvFormik.resetForm();
     },
   });
