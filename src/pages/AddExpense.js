@@ -203,6 +203,7 @@ const AddExpense = () => {
     },
   });
 
+
   const expenseDelete = (e) => {
     dispatch(deleteExpense(e));
     setExpenseOpen(false);
@@ -210,7 +211,7 @@ const AddExpense = () => {
       dispatch(getAllExpense());
     }, 200);
   };
-
+  
   const balanceDelete = (e) => {
     dispatch(deleteBalance(e));
     setRcvOpen(false);
