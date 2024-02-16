@@ -15,27 +15,30 @@ const Dashboard = () => {
   const [rcvTotalAmount, setRcvTotalAmount] = useState(null);
   const dispatch = useDispatch();
 
-  const columns = [
+  const sell_column = [
     {
       title: "Date",
       dataIndex: "date",
-      key : "date"
-      
+    },
+    {
+      title: "Customer Name",
+      dataIndex: "name",
     },
     {
       title: "Description",
-      
-      key: "description",
+      dataIndex: "description",
     },
     {
       title: "Quantity",
-      
-      key: "quantity",
+      dataIndex: "quantity",
     },
     {
       title: "Price",
-      
-      key: "price",
+      dataIndex: "price",
+    },
+    {
+      title: "Total Price",
+      dataIndex: "totalPrice",
     },
   ];
 
@@ -78,9 +81,10 @@ const Dashboard = () => {
   for (let index = 0; sell_state?.length && index < sell_state.length; index++) {
    
       sellData.push({
-        description: sell_state[index].description.title,
         date: ChangeDateFormat(sell_state[index].date),
+        name: sell_state[index].customerId.name,
         quantity: sell_state[index].quantity,
+        description: sell_state[index].description.title,
         price: sell_state[index].price,
         totalPrice: sell_state[index].totalPrice,
        
@@ -195,7 +199,7 @@ const Dashboard = () => {
 
       <div className="mt-4">
         <h3 className="mb-4">Recent Sells</h3>
-        <Table columns={columns} dataSource={sellData}></Table>
+        <Table columns={sell_column} dataSource={sellData}></Table>
       </div>
     </div>
   );

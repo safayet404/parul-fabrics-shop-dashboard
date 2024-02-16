@@ -1,6 +1,6 @@
 import axios from "axios";
 import { base_url } from "../../utils/base_url";
-import { config } from "../../utils/axiosConfig";
+import toast from "react-hot-toast";
 
 
 const addSell = async (sellDetails) =>{
@@ -8,11 +8,11 @@ const addSell = async (sellDetails) =>{
         const response = await axios.post(`${base_url}sell/add-sell`, sellDetails);
     
         if (response.status === 200) {
-         
+          toast.success("Sell Data Added Successfully !")
         }
         return response.data;
       } catch (error) {
-        console.log(error)
+        toast.error("Something Went Wrong !")
         
       }
 }
@@ -24,7 +24,7 @@ const getAllSellDetails = async()=>{
      
     }catch(error)
     {
-        
+      toast.error("Something Went Wrong !")
     }
 }
 
@@ -35,7 +35,7 @@ const getSingleSellDetails = async(id)=>{
 
   }catch(error)
   {
-    
+    toast.error("Something Went Wrong !")
   }
 }
 const getSingleSellById = async(id)=>{
@@ -45,7 +45,7 @@ const getSingleSellById = async(id)=>{
 
   }catch(error)
   {
-    
+    toast.error("Something Went Wrong !")
   }
 }
 const updateSellDetails = async(sell)=>{
@@ -62,12 +62,12 @@ const updateSellDetails = async(sell)=>{
 
     if(response.status === 200)
     {
-      
+      toast.success("Sell Data Updated Successfully !")
     }
     return response.data
 
   }catch(error){
-    console.log("here",error);
+    toast.error("Something Went Wrong !")
     
   }
   
@@ -77,12 +77,12 @@ const deleteSellData = async(id) => {
     const response = await axios.delete(`${base_url}sell/delete-sell-data/${id}`)
     if(response.status === 200)
     {
-     
+      toast.success("Sell Data Deleted Successfully !")
     }
     return response.data
   }catch(error)
   {
-    
+    toast.error("Something Went Wrong !")
   }
 }
 

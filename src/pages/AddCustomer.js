@@ -89,7 +89,7 @@ const AddCustomer = () => {
             {formik.touched.email && formik.errors.email}
           </div>
                 <CustomInput
-                type="number"
+                type="text"
                 name="mobile"
                 onChange={formik.handleChange("mobile")}
                 onBlue={formik.handleBlur("mobile")}
