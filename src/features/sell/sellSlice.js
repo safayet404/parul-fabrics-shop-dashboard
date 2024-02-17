@@ -77,7 +77,7 @@ export const deleteSellData = createAsyncThunk("sell/delete-sell-data",async(id,
           state.isLoading = false;
           state.isError = false;
           state.isSuccess = true;
-          state.createdSellInfo = action.payload;
+          state.createdSellData = action.payload;
         })
         .addCase(createSellInfo.rejected, (state, action) => {
           state.isLoading = false;
@@ -138,7 +138,7 @@ export const deleteSellData = createAsyncThunk("sell/delete-sell-data",async(id,
           state.isLoading = false;
           state.isError = false;
           state.isSuccess = true;
-          state.updatedData = action.payload;
+          state.updatedSellData = action.payload;
         })
         .addCase(updateSellDetails.rejected, (state, action) => {
           state.isLoading = false;
@@ -153,7 +153,7 @@ export const deleteSellData = createAsyncThunk("sell/delete-sell-data",async(id,
           state.isLoading = false;
           state.isError = false;
           state.isSuccess = true;
-          state.deletedData = action.payload;
+          state.deletedSellData = action.payload;
         })
         .addCase(deleteSellData.rejected, (state, action) => {
           state.isLoading = false;

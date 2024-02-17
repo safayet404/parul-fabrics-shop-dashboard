@@ -45,15 +45,15 @@ const Dashboard = () => {
 
   useEffect(() => {
     dispatch(getAllSellDetails());
-  }, []);
-  useEffect(() => {
     dispatch(getProducts());
-  }, []);
-  useEffect(() => {
     dispatch(getAllExpense());
+    dispatch(getBalance());
   }, []);
   useEffect(() => {
-    dispatch(getBalance());
+  }, []);
+  useEffect(() => {
+  }, []);
+  useEffect(() => {
   }, []);
   const product_state = useSelector((state) => state.product.products);
   const sell_state = useSelector((state) => state.sell.sells);

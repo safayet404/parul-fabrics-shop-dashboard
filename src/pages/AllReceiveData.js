@@ -1,61 +1,47 @@
-
 import { Table } from "antd";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-  
-  getAllSellDetails,
-} from "../features/sell/sellSlice";
+import { getAllSellDetails } from "../features/sell/sellSlice";
 import { useEffect, useState } from "react";
 
-import {
-  getCustomers,
- 
-} from "../features/customer/customerSlice";
+import { getCustomers } from "../features/customer/customerSlice";
 import { getAllReceiveData } from "../features/receive/receiveSlice";
 
 const rcv_column = [
-    {
-      title: "Date",
-      dataIndex: "date",
-    },
-    {
-      title: "Customer Name",
-      dataIndex: "name",
-    },
-    {
-      title: "Description",
-      dataIndex: "description",
-    },
-  
-    {
-      title: "Amount",
-      dataIndex: "amount",
-    },
-  ];
+  {
+    title: "Date",
+    dataIndex: "date",
+  },
+  {
+    title: "Customer Name",
+    dataIndex: "name",
+  },
+  {
+    title: "Description",
+    dataIndex: "description",
+  },
+
+  {
+    title: "Amount",
+    dataIndex: "amount",
+  },
+];
 const AllReceiveData = () => {
-    const [totalRcv, setTotalRcv ] = useState(null);
-    const dispatch = useDispatch();
+  const [totalRcv, setTotalRcv] = useState(null);
+  const dispatch = useDispatch();
   const changeDateFormat = (date) => {
     const newDate = new Date(date).toLocaleDateString();
     const [day, month, year] = newDate.split("/");
     return [day, month, year].join("-");
-  }
-  
-
-  
+  };
 
   useEffect(() => {
     dispatch(getAllReceiveData());
-  }, []);
-  const receive_state = useSelector((state) => state.receive.receives);
-  console.log(receive_state);
-  useEffect(() => {
     dispatch(getCustomers());
   }, []);
+  const receive_state = useSelector((state) => state.receive.receives);
   const customer_state = useSelector((state) => state.customer.customers);
-
 
   const receiveData = [];
   for (let index = 0; index < receive_state.length; index++) {
@@ -64,23 +50,22 @@ const AllReceiveData = () => {
         receiveData.push({
           date: changeDateFormat(receive_state[index].date),
           name: customer_state[j].name,
-         
+
           description: receive_state[index].description,
-         
-          amount : receive_state[index].amount,
+
+          amount: receive_state[index].amount,
         });
       }
     }
   }
 
-  useEffect(()=>{
-    let sum = 0
+  useEffect(() => {
+    let sum = 0;
     for (let index = 0; index < receive_state.length; index++) {
-       sum = sum + receive_state[index].amount
-        
+      sum = sum + receive_state[index].amount;
     }
     setTotalRcv(sum);
-  },[receive_state])
+  }, [receive_state]);
 
   return (
     <div>

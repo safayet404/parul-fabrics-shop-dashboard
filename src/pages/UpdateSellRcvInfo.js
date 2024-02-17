@@ -7,21 +7,16 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import {
-  createCustomer,
-  getSingleCustomer,
-  updateCustomer,
-} from "../features/customer/customerSlice";
-import {
   getSellByID,
-  getSingleSellDetails,
+
   updateSellDetails,
 } from "../features/sell/sellSlice";
-import { getSingleReceiveData } from "../features/receive/receiveSlice";
+import {getSingleProduct } from "../features/product/productSlice";
 
 let sellSchema = Yup.object().shape({
   quantity: Yup.number().required("Quantity is required"),
   price: Yup.number().required("Price is required"),
-  description: Yup.string().required("Description is required"),
+ 
   date: Yup.date().required("Date is Required"),
 });
 
@@ -43,18 +38,27 @@ const UpdateSellRcvInfo = () => {
       dispatch(getSellByID(getSellId));
     }
   }, [getSellId]);
-
+  
   const sell_state = useSelector((state) => state.sell.singleSellById);
+  useEffect(()=>{
+    if(sell_state.description !== undefined)
+    {
+      dispatch(getSingleProduct(sell_state.description))
+    }
+  
+    
+  },[sell_state.description])
+  const product_state = useSelector((state)=>state.product.singleProduct)
+  console.log(product_state);
 
-  const { description, quantity, price, date } = sell_state;
-  console.log(sell_state);
+
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      description: description || "",
-      quantity: quantity || "",
-      price: price || "",
-      date: changeDateFormat(date) || "",
+      
+      quantity: sell_state.quantity || "",
+      price: sell_state.price || "",
+      date: changeDateFormat(sell_state.date) || "",
     },
     validationSchema: sellSchema,
     onSubmit: (values) => {
@@ -70,7 +74,7 @@ const UpdateSellRcvInfo = () => {
     <div>
       <div className="row">
         <div className="col-6">
-          <h3 className="mb-4">Update Sells Info</h3>
+          <h3 className="mb-4">Update Sells Info : {product_state.title} </h3>
 
           <div>
             <form onSubmit={formik.handleSubmit}>
@@ -81,22 +85,10 @@ const UpdateSellRcvInfo = () => {
                 onBlur={formik.handleBlur("date")}
                 value={formik.values.date}
                 placeholder="Enter Expiry Data"
-                id="date"
+               
               />
               <div className="error">
                 {formik.touched.date && formik.errors.date}
-              </div>
-              <CustomInput
-                type="text"
-                name="description"
-                onChange={formik.handleChange("description")}
-                onBlur={formik.handleBlur("description")}
-                value={formik.values.description}
-                placeholder="Enter description"
-                id="date"
-              />
-              <div className="error">
-                {formik.touched.description && formik.errors.description}
               </div>
 
               <div className="row">

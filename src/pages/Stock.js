@@ -49,10 +49,9 @@ const Stock = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getProducts());
-  }, []);
-  useEffect(() => {
     dispatch(getAllSellDetails());
   }, []);
+
   const product_state = useSelector((state) => state.product.products);
   const sell_state = useSelector((state) => state.sell.sells);
   const productData = [];

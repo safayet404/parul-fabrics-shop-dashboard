@@ -139,30 +139,29 @@ const AddSell = () => {
   console.log(getCustomerId);
   useEffect(() => {
     dispatch(getSingleReceiveData(getCustomerId));
-  }, []);
-  useEffect(() => {
     dispatch(getSingleSellDetails(getCustomerId));
-  }, []);
-  const sell_state = useSelector((state) => state.sell.singleSellData);
-
-
-  useEffect(() => {
     dispatch(getSingleCustomer(getCustomerId));
-  }, []);
-  useEffect(() => {
     dispatch(getFactories());
-  }, []);
-  useEffect(() => {
     dispatch(getProducts());
   }, []);
-
+  useEffect(() => {
+  }, []);
+  const sell_state = useSelector((state) => state.sell.singleSellData)
   const receive_state = useSelector((state) => state.receive.singleReceiveData);
-  console.log("rcv",receive_state);
+
   const customer_state = useSelector((state) => state.customer.singleCustomer);
   const product_state = useSelector((state) => state.product.products);
   const {createdReceiveData,deletedRcvData,updatedReceivedData} = useSelector((state) => state.receive);
+  const {createdSellData,deletedSellData,updatedSellData} = useSelector((state) => state.sell);
 
+  useEffect(()=>{
+    dispatch(getSingleReceiveData(getCustomerId))
 
+  },[createdReceiveData,deletedRcvData,updatedReceivedData])
+  useEffect(()=>{
+    dispatch(getSingleSellDetails(getCustomerId))
+
+  },[createdSellData,deletedSellData,updatedSellData])
   const sellData = [];
   for (let index = 0; sell_state?.length && index < sell_state.length; index++) {
    
@@ -218,10 +217,7 @@ const AddSell = () => {
       });
     }
   }
-  useEffect(()=>{
-    dispatch(getSingleReceiveData(getCustomerId))
 
-  },[createdReceiveData,deletedRcvData,updatedReceivedData])
   useEffect(() => {
     let sum = 0;
     for (let index = 0; index < sell_state.length; index++) {
@@ -338,7 +334,7 @@ const AddSell = () => {
               {product_state.map((i, j) => {
                 return (
                   <option key={j} value={i._id}>
-                    {i.title} - {i.quantity}
+                    {i.title}
                   </option>
                  
                 );

@@ -53,9 +53,10 @@ const updateSellDetails = async(sell)=>{
     const response = await axios.put(`${base_url}sell/update-sell-details/${sell.id}`,
     {
       date : sell.sellData.date,
-      description : sell.sellData.description,
+      
       quantity : sell.sellData.quantity,
       price : sell.sellData.price,
+      totalPrice : sell.sellData.quantity * sell.sellData.price,
      
 
     })

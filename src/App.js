@@ -21,7 +21,6 @@ import AllReceiveData from "./pages/AllReceiveData";
 import Stock from "./pages/Stock";
 import Factory from "./pages/Factory";
 import AddMill from "./pages/AddMill";
-import BillAddRcv from "./pages/BillAddRcv";
 import AddExpense from "./pages/AddExpense";
 import EditExpense from "./pages/EditExpense";
 import EditBalance from "./pages/EditBalance";
@@ -50,7 +49,7 @@ function App() {
             <Route path="mills" element={<Factory />}></Route>
             <Route path="add-mill" element={<AddMill />}></Route>
             <Route path="add-mill/:id" element={<AddMill />}></Route>
-            <Route path="add-bills/:id" element={<BillAddRcv />}></Route>
+            
             <Route path="daily-expense" element={<AddExpense />}></Route>
             <Route path="edit-expense/:id" element={<EditExpense />}></Route>
             <Route path="edit-balance/:id" element={<EditBalance />}></Route>

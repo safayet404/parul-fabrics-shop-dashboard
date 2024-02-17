@@ -104,18 +104,25 @@ const AddExpense = () => {
 
   useEffect(() => {
     dispatch(getAllExpense());
-  }, []);
-  useEffect(() => {
     dispatch(getFactories());
-  }, []);
-
-  useEffect(() => {
     dispatch(getBalance());
   }, []);
+
+  
 
   const expense_state = useSelector((state) => state.expense.expenses);
   const factory_state = useSelector((state) => state.factory.factories);
   const balance_state = useSelector((state) => state.balance.balances);
+
+  const {createdExpense,updatedExpense,deletedExpenseData} = useSelector((state) => state.expense);
+  const {createdBalance,updatedBalance,deletedBalance} = useSelector((state) => state.balance);
+
+  useEffect(()=>{
+    dispatch(getAllExpense())
+  },[deletedExpenseData,createdExpense,updatedExpense])
+  useEffect(()=>{
+    dispatch(getBalance())
+  },[createdBalance,updatedBalance,deletedBalance])
 
   const expenseData = [];
 
@@ -207,17 +214,12 @@ const AddExpense = () => {
   const expenseDelete = (e) => {
     dispatch(deleteExpense(e));
     setExpenseOpen(false);
-    setTimeout(() => {
-      dispatch(getAllExpense());
-    }, 200);
   };
+
   
   const balanceDelete = (e) => {
     dispatch(deleteBalance(e));
     setRcvOpen(false);
-    setTimeout(() => {
-      dispatch(getBalance());
-    }, 200);
   };
 
   useEffect(() => {

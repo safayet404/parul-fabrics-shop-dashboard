@@ -49,6 +49,11 @@ const Factory = () => {
     dispatch(getFactories());
   }, []);
   const factory_state = useSelector((state) => state.factory.factories);
+  const {createdFactory,updatedFactory,deletedFactory} = useSelector((state) => state.factory)
+
+  useEffect(()=>{
+    dispatch(getFactories())
+  },[createdFactory,updatedFactory,deletedFactory])
   const factoryData = [];
   for (let i = 0; i < factory_state.length; i++) {
     factoryData.push({

@@ -47,6 +47,7 @@ export const deleteExpense = createAsyncThunk("expense/delete-expense",async(id,
 const initialState = {
     expenses : [],
     singleExpense : [],
+    deletedExpenseData : [],
     isError : false,
     isSuccess : false,
     isLoading : false,
@@ -125,10 +126,10 @@ export const expenseSlice = createSlice({
             state.isLoading = true
         })
         .addCase(deleteExpense.fulfilled,(state,action)=>{
-            state.isLoading = false
-            state.isError = false
-            state.isSuccess = true
-            state.deletedExpense = action.payload
+            state.isLoading = false;
+            state.isError = false;
+            state.isSuccess = true;
+            state.deletedExpenseData = action.payload;
         })
         .addCase(deleteExpense.rejected,(state,action)=>{
             state.isLoading = false

@@ -82,6 +82,7 @@ export const factorySlice = createSlice({
             state.isLoading = false
             state.isError = false
             state.isSuccess = true
+            state.createdFactory = action.payload 
             
         }).addCase(createFactory.rejected, (state,action)=>{
             state.isLoading = false

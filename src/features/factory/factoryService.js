@@ -45,7 +45,7 @@ const createFactory = async (factory) => {
       factory
     );
     if (response.status === 200) {
-      toast.error("Factory Data Added Successfully !");
+      toast.success("Factory Data Added Successfully !");
     }
     return response.data;
   } catch (error) {
