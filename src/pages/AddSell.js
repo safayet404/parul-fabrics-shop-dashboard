@@ -151,7 +151,9 @@ const AddSell = () => {
 
   const customer_state = useSelector((state) => state.customer.singleCustomer);
   const product_state = useSelector((state) => state.product.products);
-  const {createdReceiveData,deletedRcvData,updatedReceivedData} = useSelector((state) => state.receive);
+  const receiveUpdate = useSelector((state) => state.receive);
+  const {createdReceiveData,deletedRcvData,updatedReceivedData} = receiveUpdate
+  console.log(receiveUpdate);
   const {createdSellData,deletedSellData,updatedSellData} = useSelector((state) => state.sell);
 
   useEffect(()=>{

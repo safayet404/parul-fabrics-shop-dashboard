@@ -57,15 +57,15 @@ const updateExpense = async (expense) => {
   }
 };
 
-const deleteExpense = async (id) => {
+const deleteExpenseData = async (id) => {
   try {
-    const response = await axios.delete(
-      `${base_url}expense/delete-expense/${id}`
-    );
-
-    if (response.status === 200) {
-      toast.success("Expense Data Deleted Successfully!");
+    const response = await axios.delete(`${base_url}expense/delete-expense/${id}`)
+    if(response.status === 200)
+    {
+      toast.success("Expense Data Deleted Successfully !")
     }
+    return response.data
+    
   } catch (error) {
     toast.error("Something Went Wrong !");
   }
@@ -76,7 +76,7 @@ const expenseService = {
   getAllExpense,
   getSingleExpense,
   updateExpense,
-  deleteExpense,
+  deleteExpenseData,
 };
 
 export default expenseService;

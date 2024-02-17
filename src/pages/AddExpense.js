@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 import CustomModal from "../components/CustomModal";
 import {
   createExpense,
-  deleteExpense,
+  expenseDataDelete,
   getAllExpense,
 } from "../features/expense/expenseSlice";
 import { getFactories } from "../features/factory/factorySlice";
@@ -114,12 +114,22 @@ const AddExpense = () => {
   const factory_state = useSelector((state) => state.factory.factories);
   const balance_state = useSelector((state) => state.balance.balances);
 
-  const {createdExpense,updatedExpense,deletedExpenseData} = useSelector((state) => state.expense);
+  const sellUpdate = useSelector((state) => state.expense);
+  const {createdExpense,updatedExpense,deletedExpenseData} = sellUpdate
   const {createdBalance,updatedBalance,deletedBalance} = useSelector((state) => state.balance);
-
+console.log(sellUpdate);
+  const expenseDelete = (e) => {
+    dispatch(expenseDataDelete(e));
+    setExpenseOpen(false);
+  };
+  const balanceDelete = (e) => {
+    dispatch(deleteBalance(e));
+    setRcvOpen(false);
+  };
   useEffect(()=>{
     dispatch(getAllExpense())
   },[deletedExpenseData,createdExpense,updatedExpense])
+
   useEffect(()=>{
     dispatch(getBalance())
   },[createdBalance,updatedBalance,deletedBalance])
@@ -211,16 +221,8 @@ const AddExpense = () => {
   });
 
 
-  const expenseDelete = (e) => {
-    dispatch(deleteExpense(e));
-    setExpenseOpen(false);
-  };
 
   
-  const balanceDelete = (e) => {
-    dispatch(deleteBalance(e));
-    setRcvOpen(false);
-  };
 
   useEffect(() => {
     let sum = 0;
@@ -339,7 +341,7 @@ const AddExpense = () => {
               {RcvFormik.touched.description && RcvFormik.errors.description}
             </div>
             <CustomInput
-              type="text"
+              type="number"
               name="amount"
               onChange={RcvFormik.handleChange("amount")}
               onBlur={RcvFormik.handleBlur("amount")}

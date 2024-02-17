@@ -35,9 +35,9 @@ export const updateExpense = createAsyncThunk("expense/update-expense",async(exp
     }
 })
 
-export const deleteExpense = createAsyncThunk("expense/delete-expense",async(id,thunkAPI)=>{
+export const expenseDataDelete = createAsyncThunk("expense/delete-expense",async(id,thunkAPI)=>{
     try{
-        return await expenseService.deleteExpense(id)
+        return await expenseService.deleteExpenseData(id)
     }catch(error)
     {
         return thunkAPI.rejectWithValue(error)
@@ -47,11 +47,11 @@ export const deleteExpense = createAsyncThunk("expense/delete-expense",async(id,
 const initialState = {
     expenses : [],
     singleExpense : [],
-    deletedExpenseData : [],
     isError : false,
     isSuccess : false,
     isLoading : false,
-    message : ""
+    message : "",
+    
 }
 
 export const resetState = createAction("Reset_all")
@@ -122,21 +122,25 @@ export const expenseSlice = createSlice({
             state.isSuccess = false
             state.message = action.error
         })
-        .addCase(deleteExpense.pending,(state)=>{
+        .addCase(expenseDataDelete.pending,(state)=>{
             state.isLoading = true
         })
-        .addCase(deleteExpense.fulfilled,(state,action)=>{
+        .addCase(expenseDataDelete.fulfilled,(state,action)=>{
+            
             state.isLoading = false;
             state.isError = false;
             state.isSuccess = true;
-            state.deletedExpenseData = action.payload;
+            state.deletedExpenseData = action.payload
+            
         })
-        .addCase(deleteExpense.rejected,(state,action)=>{
+        .addCase(expenseDataDelete.rejected,(state,action)=>{
             state.isLoading = false
             state.isError = true
             state.isSuccess = false
             state.message = action.error
         })
+
+        .addCase(resetState, () => initialState);
     }
 })
 
