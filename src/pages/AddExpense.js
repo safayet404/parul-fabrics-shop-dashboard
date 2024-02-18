@@ -2,8 +2,7 @@ import CustomInput from "../components/CustomInput";
 import { Table } from "antd";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { jsx, css, Global, ClassNames } from '@emotion/react'
-import { RingLoader } from "react-spinners";
+import { ClipLoader, RingLoader } from "react-spinners";
 import { useDispatch, useSelector } from "react-redux";
 
 import { useEffect, useState } from "react";
@@ -76,7 +75,6 @@ let receiveSchema = Yup.object().shape({
 });
 
 const AddExpense = () => {
-  const [loading, setLoading] = useState(false);
   const changeDateFormat = (date) => {
     const newDate = new Date(date).toLocaleDateString();
     const [month, day, year] = newDate.split("/");
@@ -105,11 +103,9 @@ const AddExpense = () => {
   };
 
   useEffect(() => {
-    setLoading(true);
     dispatch(getAllExpense());
     dispatch(getFactories());
     dispatch(getBalance());
-    setLoading(false);
   }, []);
 
   const expense_state = useSelector((state) => state.expense.expenses);
@@ -120,6 +116,8 @@ const AddExpense = () => {
   const { createdExpense, updatedExpense, deletedExpenseData } = sellUpdate;
   const { createdBalance, updatedBalance, deletedBalance, isLoading } =
     useSelector((state) => state.balance);
+  const expenseLoader = useSelector((state) => state.expense.isLoading);
+  const balanceLoader = useSelector((state) => state.balance.isLoading);
   console.log(sellUpdate);
   const expenseDelete = (e) => {
     dispatch(expenseDataDelete(e));
@@ -130,9 +128,7 @@ const AddExpense = () => {
     setRcvOpen(false);
   };
   useEffect(() => {
-    setLoading(true)
     dispatch(getAllExpense());
-    setLoading(false)
   }, [deletedExpenseData, createdExpense, updatedExpense]);
 
   useEffect(() => {
@@ -200,9 +196,7 @@ const AddExpense = () => {
     },
     validationSchema: dailyExpenseSchema,
     onSubmit: (values) => {
-      setLoading(true);
       dispatch(createExpense(values));
-      setLoading(false);
 
       formik.resetForm();
     },
@@ -226,180 +220,193 @@ const AddExpense = () => {
 
   useEffect(() => {
     let sum = 0;
-    for (let index = 0; index < balance_state.length; index++) {
-      sum = sum + balance_state[index].amount;
+    
+
+      for (let index = 0; index < balance_state.length; index++) {
+        sum = sum + balance_state[index].amount;
+        
+      }
       setRcvTotalAmount(sum);
-    }
   }, [balance_state]);
   useEffect(() => {
     let sum = 0;
     for (let index = 0; index < expense_state.length; index++) {
       sum = sum + expense_state[index].amount;
-      setTotalAmount(sum);
     }
+    setTotalAmount(sum);
   }, [expense_state]);
   return (
     <div>
-      {isLoading ? (
-        <RingLoader color={"#123abc"} loading={loading} size={150} />
-      ) : (
-        <div>
-          <div className="row mb-5">
-            <div className="col-6">
-              <h2>Balance : {rcvTotalAmount - totalAmount} </h2>
-            </div>
-            <div className="col-6">
-              <h2> </h2>
-            </div>
+      <div>
+        <div className="row mb-5">
+          <div className="col-6">
+            <h2>Balance : {rcvTotalAmount - totalAmount} </h2>
           </div>
+          <div className="col-6">
+            <h2> </h2>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-6">
+            <h3 className="mb-4">Add Expense Info</h3>
+
+            <form onSubmit={formik.handleSubmit}>
+              <CustomInput
+                className="mt-3"
+                type="date"
+                name="date"
+                onChange={formik.handleChange("date")}
+                onBlue={formik.handleBlur("date")}
+                value={formik.values.date}
+                placeholder="Enter the date"
+              />
+
+              <div className="error">
+                {formik.touched.date && formik.errors.date}
+              </div>
+
+              <CustomInput
+                type="text"
+                name="purpose"
+                onChange={formik.handleChange("purpose")}
+                onBlur={formik.handleBlur("purpose")}
+                value={formik.values.purpose}
+                placeholder="Enter purpose"
+                list="expense-purpose"
+              />
+              <datalist id="expense-purpose">
+                {factory_state.map((i, j) => {
+                  return (
+                    <option key={j} value={i.name}>
+                      {i.name}
+                    </option>
+                  );
+                })}
+              </datalist>
+
+              <div className="error">
+                {formik.touched.purpose && formik.errors.purpose}
+              </div>
+
+              <CustomInput
+                type="number"
+                name="amount"
+                onChange={formik.handleChange("amount")}
+                onBlue={formik.handleBlur("amount")}
+                value={formik.values.amount}
+                placeholder="Enter the product amount"
+              />
+
+              <div className="error">
+                {formik.touched.amount && formik.errors.amount}
+              </div>
+
+              <button
+                type="submit"
+                className="btn btn-success border-0 rounded-3 "
+              >
+                Add Expense
+              </button>
+            </form>
+          </div>
+
+          <div className="col-6">
+            <h3 className="mb-4">Add Receive Info</h3>
+
+            <form onSubmit={RcvFormik.handleSubmit}>
+              <CustomInput
+                type="date"
+                name="date"
+                onChange={RcvFormik.handleChange("date")}
+                onBlur={RcvFormik.handleBlur("date")}
+                value={RcvFormik.values.date}
+                placeholder="Enter Expiry Data"
+              />
+              <div className="error">
+                {RcvFormik.touched.date && RcvFormik.errors.date}
+              </div>
+              <CustomInput
+                type="text"
+                name="description"
+                onChange={RcvFormik.handleChange("description")}
+                onBlur={RcvFormik.handleBlur("description")}
+                value={RcvFormik.values.description}
+                placeholder="Enter description"
+                id="date"
+              />
+              <div className="error">
+                {RcvFormik.touched.description && RcvFormik.errors.description}
+              </div>
+              <CustomInput
+                type="number"
+                name="amount"
+                onChange={RcvFormik.handleChange("amount")}
+                onBlur={RcvFormik.handleBlur("amount")}
+                value={RcvFormik.values.amount}
+                placeholder="Enter the amount"
+              />
+              <div className="error">
+                {RcvFormik.touched.amount && RcvFormik.errors.amount}
+              </div>
+
+              <button
+                type="submit"
+                className="btn btn-success border-0 rounded-3 "
+              >
+                Add Balance Info
+              </button>
+            </form>
+          </div>
+
           <div className="row">
             <div className="col-6">
-              <h3 className="mb-4">Add Expense Info</h3>
-
-              <form onSubmit={formik.handleSubmit}>
-                <CustomInput
-                  className="mt-3"
-                  type="date"
-                  name="date"
-                  onChange={formik.handleChange("date")}
-                  onBlue={formik.handleBlur("date")}
-                  value={formik.values.date}
-                  placeholder="Enter the date"
-                />
-
-                <div className="error">
-                  {formik.touched.date && formik.errors.date}
+              <h3 className="mb-4 title mt-4">
+                Total Bills : {totalAmount ? totalAmount : 0}
+              </h3>
+              {expenseLoader ? (
+                <div className="text-center mt-5">
+                  <ClipLoader />
                 </div>
-
-                <CustomInput
-                  type="text"
-                  name="purpose"
-                  onChange={formik.handleChange("purpose")}
-                  onBlur={formik.handleBlur("purpose")}
-                  value={formik.values.purpose}
-                  placeholder="Enter purpose"
-                  list="expense-purpose"
-                />
-                <datalist id="expense-purpose">
-                  {factory_state.map((i, j) => {
-                    return (
-                      <option key={j} value={i.name}>
-                        {i.name}
-                      </option>
-                    );
-                  })}
-                </datalist>
-
-                <div className="error">
-                  {formik.touched.purpose && formik.errors.purpose}
-                </div>
-
-                <CustomInput
-                  type="number"
-                  name="amount"
-                  onChange={formik.handleChange("amount")}
-                  onBlue={formik.handleBlur("amount")}
-                  value={formik.values.amount}
-                  placeholder="Enter the product amount"
-                />
-
-                <div className="error">
-                  {formik.touched.amount && formik.errors.amount}
-                </div>
-
-                <button
-                  type="submit"
-                  className="btn btn-success border-0 rounded-3 "
-                >
-                  Add Expense
-                </button>
-              </form>
-            </div>
-
-            <div className="col-6">
-              <h3 className="mb-4">Add Receive Info</h3>
-
-              <form onSubmit={RcvFormik.handleSubmit}>
-                <CustomInput
-                  type="date"
-                  name="date"
-                  onChange={RcvFormik.handleChange("date")}
-                  onBlur={RcvFormik.handleBlur("date")}
-                  value={RcvFormik.values.date}
-                  placeholder="Enter Expiry Data"
-                />
-                <div className="error">
-                  {RcvFormik.touched.date && RcvFormik.errors.date}
-                </div>
-                <CustomInput
-                  type="text"
-                  name="description"
-                  onChange={RcvFormik.handleChange("description")}
-                  onBlur={RcvFormik.handleBlur("description")}
-                  value={RcvFormik.values.description}
-                  placeholder="Enter description"
-                  id="date"
-                />
-                <div className="error">
-                  {RcvFormik.touched.description &&
-                    RcvFormik.errors.description}
-                </div>
-                <CustomInput
-                  type="number"
-                  name="amount"
-                  onChange={RcvFormik.handleChange("amount")}
-                  onBlur={RcvFormik.handleBlur("amount")}
-                  value={RcvFormik.values.amount}
-                  placeholder="Enter the amount"
-                />
-                <div className="error">
-                  {RcvFormik.touched.amount && RcvFormik.errors.amount}
-                </div>
-
-                <button
-                  type="submit"
-                  className="btn btn-success border-0 rounded-3 "
-                >
-                  Add Balance Info
-                </button>
-              </form>
-            </div>
-
-            <div className="row">
-              <div className="col-6">
-                <h3 className="mb-4 title mt-4">Total Bills : {totalAmount}</h3>
+              ) : (
                 <div>
                   <Table columns={daily_expense} dataSource={expenseData} />
                 </div>
-              </div>
-              <div className="col-6">
-                <h3 className="mb-4 title mt-4">
-                  Total Receive Amount : {rcvTotalAmount}
-                </h3>
+              )}
+            </div>
+            <div className="col-6">
+              <h3 className="mb-4 title mt-4">
+                Total Receive Amount : {rcvTotalAmount ? rcvTotalAmount : 0}
+              </h3>
+              {balanceLoader ? (
+                <div className="text-center mt-5">
+                  {" "}
+                  <ClipLoader />{" "}
+                </div>
+              ) : (
                 <div>
                   <Table columns={daily_rcv} dataSource={balanceData} />
                 </div>
-              </div>
+              )}
             </div>
           </div>
-          <CustomModal
-            open={expenseOpen}
-            onCancel={hideExpenseModel}
-            performAction={() => {
-              expenseDelete(expenseId);
-            }}
-            title="Are you sure you want to delete sell data?"
-          />
-          <CustomModal
-            open={rcvOpen}
-            onCancel={hideRcvModal}
-            performAction={() => {
-              balanceDelete(rcvId);
-            }}
-            title="Are you sure you want to delete receive data?"
-          />
         </div>
-      )}
+        <CustomModal
+          open={expenseOpen}
+          onCancel={hideExpenseModel}
+          performAction={() => {
+            expenseDelete(expenseId);
+          }}
+          title="Are you sure you want to delete sell data?"
+        />
+        <CustomModal
+          open={rcvOpen}
+          onCancel={hideRcvModal}
+          performAction={() => {
+            balanceDelete(rcvId);
+          }}
+          title="Are you sure you want to delete receive data?"
+        />
+      </div>
     </div>
   );
 };
