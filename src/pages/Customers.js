@@ -16,11 +16,12 @@ const columns = [
   {
     title: "SNo",
     dataIndex: "key",
+    sorter: (a, b) => a.key - b.key,
   },
   {
     title: "Name",
     dataIndex: "name",
-    sorter: (a, b) => a.name.length - b.name.length,
+   
   },
   {
     title: "Address",
@@ -38,6 +39,7 @@ const columns = [
 ];
 const Customers = () => {
   const [open, setOpen] = useState(false);
+
   const [customerId, setCustomerId] = useState("");
 
   const dispatch = useDispatch();
@@ -114,7 +116,7 @@ const Customers = () => {
           <div>
             <Table
               columns={columns}
-              dataSource={data1}
+              dataSource={data1} 
               scroll={{
                 x: 700,
               }}

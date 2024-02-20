@@ -24,6 +24,11 @@ import {
 } from "../features/balance/balanceSlice";
 const daily_expense = [
   {
+    title: "SNo",
+    dataIndex: "key",
+    sorter: (a, b) => a.key - b.key,
+  },
+  {
     title: "Date",
     dataIndex: "date",
   },
@@ -43,6 +48,11 @@ const daily_expense = [
   },
 ];
 const daily_rcv = [
+  {
+    title: "SNo",
+    dataIndex: "key",
+    sorter: (a, b) => a.key - b.key,
+  },
   {
     title: "Date",
     dataIndex: "date",
@@ -114,11 +124,10 @@ const AddExpense = () => {
 
   const sellUpdate = useSelector((state) => state.expense);
   const { createdExpense, updatedExpense, deletedExpenseData } = sellUpdate;
-  const { createdBalance, updatedBalance, deletedBalance, isLoading } =
-    useSelector((state) => state.balance);
+  const { createdBalance, updatedBalance, deletedBalance, isLoading } = useSelector((state) => state.balance);
   const expenseLoader = useSelector((state) => state.expense.isLoading);
   const balanceLoader = useSelector((state) => state.balance.isLoading);
-  console.log(sellUpdate);
+
   const expenseDelete = (e) => {
     dispatch(expenseDataDelete(e));
     setExpenseOpen(false);
@@ -139,6 +148,7 @@ const AddExpense = () => {
 
   for (let i = 0; i < expense_state.length; i++) {
     expenseData.push({
+      key : i+1,
       date: changeDateFormat(expense_state[i].date),
       purpose: expense_state[i].purpose,
       amount: expense_state[i].amount,
@@ -165,6 +175,7 @@ const AddExpense = () => {
 
   for (let i = 0; i < balance_state.length; i++) {
     balanceData.push({
+      key : i+1,
       date: changeDateFormat(balance_state[i].date),
       description: balance_state[i].description,
       amount: balance_state[i].amount,
@@ -197,7 +208,6 @@ const AddExpense = () => {
     validationSchema: dailyExpenseSchema,
     onSubmit: (values) => {
       dispatch(createExpense(values));
-
       formik.resetForm();
     },
   });
@@ -220,11 +230,8 @@ const AddExpense = () => {
 
   useEffect(() => {
     let sum = 0;
-    
-
       for (let index = 0; index < balance_state.length; index++) {
         sum = sum + balance_state[index].amount;
-        
       }
       setRcvTotalAmount(sum);
   }, [balance_state]);

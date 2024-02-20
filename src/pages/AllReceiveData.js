@@ -11,6 +11,11 @@ import { ClipLoader } from "react-spinners";
 
 const rcv_column = [
   {
+    title: "SNo",
+    dataIndex: "key",
+    sorter: (a, b) => a.key - b.key,
+  },
+  {
     title: "Date",
     dataIndex: "date",
   },
@@ -50,6 +55,7 @@ const AllReceiveData = () => {
     for (let j = 0; j < customer_state.length; j++) {
       if (receive_state[index].customerId === customer_state[j]._id) {
         receiveData.push({
+          key : index + 1,
           date: changeDateFormat(receive_state[index].date),
           name: customer_state[j].name,
 

@@ -12,6 +12,7 @@ const columns = [
   {
     title: "SNo",
     dataIndex: "key",
+    sorter: (a, b) => a.key - b.key,
   },
   {
     title: "Date",

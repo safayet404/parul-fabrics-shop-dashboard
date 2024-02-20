@@ -30,6 +30,11 @@ import { deleteProduct, getProducts } from "../features/product/productSlice";
 import { ClipLoader } from "react-spinners";
 const sell_column = [
   {
+    title: "SNo",
+    dataIndex: "key",
+    sorter: (a, b) => a.key - b.key,
+  },
+  {
     title: "Date",
     dataIndex: "date",
   },
@@ -57,6 +62,11 @@ const sell_column = [
   },
 ];
 const rcv_column = [
+  {
+    title: "SNo",
+    dataIndex: "key",
+    sorter: (a, b) => a.key - b.key,
+  },
   {
     title: "Date",
     dataIndex: "date",
@@ -89,7 +99,6 @@ let receiveSchema = Yup.object().shape({
 });
 
 const AddSell = () => {
-  const [fixedTop, setFixedTop] = useState(false);
   const [totalAmount, setTotalAmount] = useState(null);
   const [rcvTotalAmount, setRcvTotalAmount] = useState(null);
   const [sellOpen, setSellOpen] = useState(false);
@@ -173,6 +182,7 @@ const AddSell = () => {
     index++
   ) {
     sellData.push({
+      key : index + 1,
       description: sell_state[index].description.title,
       date: changeDateFormat(sell_state[index].date),
       quantity: sell_state[index].quantity,
@@ -201,6 +211,7 @@ const AddSell = () => {
   for (let i = 0; receive_state?.length && i < receive_state?.length; i++) {
     if (receive_state[i].customerId === getCustomerId) {
       receiveData.push({
+        key : i +1,
         date: changeDateFormat(receive_state[i].date),
         description: receive_state[i].description,
         amount: receive_state[i].amount,

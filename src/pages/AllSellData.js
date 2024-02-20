@@ -10,8 +10,9 @@ import { ClipLoader } from "react-spinners";
 
 const sell_column = [
   {
-    title: "Date",
-    dataIndex: "date",
+    title: "SNo",
+    dataIndex: "key",
+    sorter: (a, b) => a.key - b.key,
   },
   {
     title: "Customer Name",
@@ -55,6 +56,7 @@ const AllSellData = () => {
   const sellData = [];
   for (let index = 0; index < sell_state.length; index++) {
     sellData.push({
+      key : index+1,
       date: changeDateFormat(sell_state[index].date),
       name: sell_state[index].customerId.name,
       quantity: sell_state[index].quantity,

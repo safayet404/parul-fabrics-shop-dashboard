@@ -50,9 +50,7 @@ const Stock = () => {
   }, []);
 
   const product_state = useSelector((state) => state.product.products);
-  const productLoader = useSelector((state) => state.product.isLoading);
   const sell_state = useSelector((state) => state.sell.sells);
-  const sellLoader = useSelector((state) => state.sell.isLoading);
   const productData = [];
 
   const updatedProductQuantity = [];
@@ -66,19 +64,22 @@ const Stock = () => {
       }
     }
 
-    productData.push({
-      name: product_state[i].title,
-      description: (
-        <p
-          dangerouslySetInnerHTML={{ __html: product_state[i].description }}
-        ></p>
-      ),
-
-      stock: remainQty ? remainQty : product_state[i].quantity,
-
-      color: product_state[i].color,
-      date: changeDateFormat(product_state[i].date),
-    });
+    if(remainQty !== 0)
+    {
+      productData.push({
+        name:  product_state[i].title,
+        description: (
+          <p
+            dangerouslySetInnerHTML={{ __html: product_state[i].description }}
+          ></p>
+        ),
+  
+        stock: remainQty ? remainQty : product_state[i].quantity,
+  
+        color: product_state[i].color,
+        date: changeDateFormat(product_state[i].date),
+      });
+    }
     updatedProductQuantity.push(remainQty);
   }
 
@@ -92,7 +93,7 @@ const Stock = () => {
 
   return (
     <div>
-      {!stock ? (
+      {(stock <= 0 ? 0 : !stock )? (
         <div className="text-center mt-5">
           <ClipLoader />
         </div>
