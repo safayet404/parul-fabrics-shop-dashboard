@@ -9,7 +9,6 @@ import { login } from "../features/auth/authSlice";
 import { useEffect } from "react";
 import {
   getAuth,
-  createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
 

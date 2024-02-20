@@ -102,7 +102,9 @@ const Factory = () => {
       ) : (
         <div>
           <h3 className="mb-4"> Mills and Factories </h3>
-          <Table columns={columns} dataSource={factoryData}></Table>
+          <Table columns={columns} dataSource={factoryData} scroll={{
+                    x: 700,
+                  }}></Table>
           <CustomModal
             open={open}
             title="Are you sure you want to delete this?"

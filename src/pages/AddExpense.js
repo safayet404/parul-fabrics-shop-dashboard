@@ -369,7 +369,9 @@ const AddExpense = () => {
                 </div>
               ) : (
                 <div>
-                  <Table columns={daily_expense} dataSource={expenseData} />
+                  <Table columns={daily_expense} dataSource={expenseData} scroll={{
+                    x: 700,
+                  }} />
                 </div>
               )}
             </div>
@@ -384,7 +386,9 @@ const AddExpense = () => {
                 </div>
               ) : (
                 <div>
-                  <Table columns={daily_rcv} dataSource={balanceData} />
+                  <Table columns={daily_rcv} dataSource={balanceData} scroll={{
+                    x: 700,
+                  }} />
                 </div>
               )}
             </div>

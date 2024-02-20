@@ -215,7 +215,9 @@ const Dashboard = () => {
         ) : (
           <div>
             <h3 className="mb-4">Recent Sells</h3>
-            <Table columns={sell_column} dataSource={sellData}></Table>
+            <Table columns={sell_column} dataSource={sellData} scroll={{
+                    x: 700,
+                  }}></Table>
           </div>
         )}
       </div>

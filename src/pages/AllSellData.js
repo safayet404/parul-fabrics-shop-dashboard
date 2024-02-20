@@ -77,7 +77,9 @@ const AllSellData = () => {
       {sellLoader ? (<div className="text-center"><ClipLoader/></div>) : (<div>
         <h3 className="mb-4 title mt-4">Total Bills : {totalBill}</h3>
       <div>
-        <Table columns={sell_column} dataSource={sellData} />
+        <Table columns={sell_column} dataSource={sellData} scroll={{
+                    x: 700,
+                  }} />
       </div>
       </div>)}
      

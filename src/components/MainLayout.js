@@ -2,14 +2,9 @@ import React, { useState } from "react";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { Layout, Menu, Button, theme } from "antd";
 import { TfiDashboard } from "react-icons/tfi";
-import { GiCatapult,GiTicket } from "react-icons/gi";
 import { BsFillCartCheckFill } from "react-icons/bs";
-import { SiBrandfolder } from "react-icons/si";
-import { LuLayoutList } from "react-icons/lu";
 import {
-  AiOutlineBgColors,
   AiFillFileAdd,
-  AiOutlineMessage,
 } from "react-icons/ai";
 
 
@@ -157,17 +152,7 @@ const MainLayout = () => {
               <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 <li>
                   <a class="dropdown-item" href="/d">
-                    Action
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="/d">
-                    Another action
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="/d">
-                    Something else here
+                   Log Out
                   </a>
                 </li>
               </div>

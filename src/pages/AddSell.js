@@ -1,5 +1,5 @@
 import CustomInput from "../components/CustomInput";
-import { Table } from "antd";
+import { Switch, Table } from 'antd';
 import * as Yup from "yup";
 import { useFormik } from "formik";
 
@@ -27,6 +27,7 @@ import { getSingleCustomer } from "../features/customer/customerSlice";
 import CustomModal from "../components/CustomModal";
 import { getFactories } from "../features/factory/factorySlice";
 import { deleteProduct, getProducts } from "../features/product/productSlice";
+import { ClipLoader } from "react-spinners";
 const sell_column = [
   {
     title: "Date",
@@ -52,6 +53,7 @@ const sell_column = [
     title: "Action",
     dataIndex: "action",
     key: "action",
+    
   },
 ];
 const rcv_column = [
@@ -87,15 +89,15 @@ let receiveSchema = Yup.object().shape({
 });
 
 const AddSell = () => {
+  const [fixedTop, setFixedTop] = useState(false);
   const [totalAmount, setTotalAmount] = useState(null);
   const [rcvTotalAmount, setRcvTotalAmount] = useState(null);
   const [sellOpen, setSellOpen] = useState(false);
   const [rcvOpen, setRcvOpen] = useState(false);
   const [sellId, setSellId] = useState("");
   const [rcvId, setRcvId] = useState("");
-  const navigate = useNavigate()
-  
-  let dueOrBalance = totalAmount - rcvTotalAmount
+
+  let dueOrBalance = totalAmount - rcvTotalAmount;
   console.log(dueOrBalance);
   const showSellModal = (e) => {
     setSellOpen(true);
@@ -144,53 +146,55 @@ const AddSell = () => {
     dispatch(getFactories());
     dispatch(getProducts());
   }, []);
-  useEffect(() => {
-  }, []);
-  const sell_state = useSelector((state) => state.sell.singleSellData)
-  const receive_state = useSelector((state) => state.receive.singleReceiveData);
 
+  const sell_state = useSelector((state) => state.sell.singleSellData);
+  const sellLoader = useSelector((state) => state.sell.isLoading);
+  const receive_state = useSelector((state) => state.receive.singleReceiveData);
   const customer_state = useSelector((state) => state.customer.singleCustomer);
   const product_state = useSelector((state) => state.product.products);
   const receiveUpdate = useSelector((state) => state.receive);
-  const {createdReceiveData,deletedRcvData,updatedReceivedData} = receiveUpdate
-  console.log(receiveUpdate);
-  const {createdSellData,deletedSellData,updatedSellData} = useSelector((state) => state.sell);
+  const receiveLoader = useSelector((state) => state.receive.isLoading);
+  const { createdReceiveData, deletedRcvData, updatedReceivedData } =
+    receiveUpdate;
+  const { createdSellData, deletedSellData, updatedSellData } = useSelector(
+    (state) => state.sell
+  );
 
-  useEffect(()=>{
-    dispatch(getSingleReceiveData(getCustomerId))
-
-  },[createdReceiveData,deletedRcvData,updatedReceivedData])
-  useEffect(()=>{
-    dispatch(getSingleSellDetails(getCustomerId))
-
-  },[createdSellData,deletedSellData,updatedSellData])
+  useEffect(() => {
+    dispatch(getSingleReceiveData(getCustomerId));
+  }, [createdReceiveData, deletedRcvData, updatedReceivedData]);
+  useEffect(() => {
+    dispatch(getSingleSellDetails(getCustomerId));
+  }, [createdSellData, deletedSellData, updatedSellData]);
   const sellData = [];
-  for (let index = 0; sell_state?.length && index < sell_state.length; index++) {
-   
-      sellData.push({
-        description: sell_state[index].description.title,
-        date: changeDateFormat(sell_state[index].date),
-        quantity: sell_state[index].quantity,
-        price: sell_state[index].price,
-        totalPrice: sell_state[index].totalPrice,
-        action: (
-          <>
-            <Link
-              to={`/admin/update-sell-rcv/${sell_state[index]._id}`}
-              className=" fs-3 text-danger"
-            >
-              <BiEdit />
-            </Link>
-            <button
-              className="ms-3 fs-3 text-danger bg-transparent border-0"
-              onClick={() => showSellModal(sell_state[index]._id)}
-            >
-              <AiFillDelete />
-            </button>
-          </>
-        ),
-      });
-    
+  for (
+    let index = 0;
+    sell_state?.length && index < sell_state.length;
+    index++
+  ) {
+    sellData.push({
+      description: sell_state[index].description.title,
+      date: changeDateFormat(sell_state[index].date),
+      quantity: sell_state[index].quantity,
+      price: sell_state[index].price,
+      totalPrice: sell_state[index].totalPrice,
+      action: (
+        <>
+          <Link
+            to={`/admin/update-sell-rcv/${sell_state[index]._id}`}
+            className=" fs-3 text-danger"
+          >
+            <BiEdit />
+          </Link>
+          <button
+            className="ms-3 fs-3 text-danger bg-transparent border-0"
+            onClick={() => showSellModal(sell_state[index]._id)}
+          >
+            <AiFillDelete />
+          </button>
+        </>
+      ),
+    });
   }
 
   const receiveData = [];
@@ -248,7 +252,7 @@ const AddSell = () => {
       description: "",
       quantity: "",
       price: "",
-      date :  "",
+      date: "",
       customerId: getCustomerId || "",
     },
     validationSchema: sellSchema,
@@ -261,21 +265,17 @@ const AddSell = () => {
     },
   });
 
-
   const RcvFormik = useFormik({
     enableReinitialize: true,
     initialValues: {
       description: "",
       amount: "",
-      date : "",
+      date: "",
       customerId: getCustomerId || "",
     },
     validationSchema: receiveSchema,
     onSubmit: (values) => {
-     
-      
-     dispatch(addReceiveData(values));
-    
+      dispatch(addReceiveData(values));
 
       RcvFormik.resetForm();
     },
@@ -315,15 +315,6 @@ const AddSell = () => {
               {formik.touched.date && formik.errors.date}
             </div>
 
-            {/* <CustomInput
-              type="text"
-              name="description"
-              onChange={formik.handleChange("description")}
-              onBlur={formik.handleBlur("description")}
-              value={formik.values.description}
-              placeholder="Enter description"
-            
-            /> */}
             <select
               name="description"
               className="form-control py-3 mb-3"
@@ -331,14 +322,12 @@ const AddSell = () => {
               onBlur={formik.handleBlur("description")}
               value={formik.values.description}
             >
-           
               <option value="">Select the Product</option>
               {product_state.map((i, j) => {
                 return (
                   <option key={j} value={i._id}>
                     {i.title}
                   </option>
-                 
                 );
               })}
             </select>
@@ -441,18 +430,41 @@ const AddSell = () => {
 
         <div className="row">
           <div className="col-6">
-            <h3 className="mb-4 title mt-4">Total Bills : {totalAmount}</h3>
-            <div>
-              <Table columns={sell_column} dataSource={sellData} />
-            </div>
+            {sellLoader ? (
+              <div className="text-center mt-5">
+                <ClipLoader />
+              </div>
+            ) : (
+              <div>
+                <h3 className="mb-4 title mt-4">Total Bills : {totalAmount}</h3>
+                <div >
+                  <Table className="responsive-table" columns={sell_column} dataSource={sellData} 
+                   scroll={{
+                    x: 700,
+                  }}
+
+                  />
+                </div>
+              </div>
+            )}
           </div>
           <div className="col-6">
-            <h3 className="mb-4 title mt-4">
-              Total Receive Amount : {rcvTotalAmount}
-            </h3>
-            <div>
-              <Table columns={rcv_column} dataSource={receiveData} />
-            </div>
+            {receiveLoader ? (
+              <div className="text-center mt-5">
+                <ClipLoader />
+              </div>
+            ) : (
+              <div>
+                <h3 className="mb-4 title mt-4">
+                  Total Receive Amount : {rcvTotalAmount}
+                </h3>
+                <div>
+                  <Table columns={rcv_column} dataSource={receiveData}  scroll={{
+                    x: 700,
+                  }} />
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

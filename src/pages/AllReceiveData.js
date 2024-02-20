@@ -80,7 +80,9 @@ const AllReceiveData = () => {
           {" "}
           <h3 className="mb-4 title mt-4">Total Receive : {totalRcv}</h3>
           <div>
-            <Table columns={rcv_column} dataSource={receiveData} />
+            <Table columns={rcv_column} dataSource={receiveData} scroll={{
+                    x: 700,
+                  }} />
           </div>
         </div>
       )}

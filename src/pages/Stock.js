@@ -99,7 +99,9 @@ const Stock = () => {
       ) : (
         <div>
           <h3 className="mb-4">Total Stock : {stock} </h3>
-          <Table columns={columns} dataSource={productData}></Table>
+          <Table columns={columns} dataSource={productData} scroll={{
+                    x: 700,
+                  }}></Table>
         </div>
       )}
     </div>

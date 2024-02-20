@@ -65,7 +65,9 @@ const MillsBalance = () => {
           <h3 className="mb-4 title mt-4">Name: {factory_state.name}</h3>
           <h3 className="mb-4 title mt-4">Total Amount : {millAmount}</h3>
           <div>
-            <Table columns={mill_balance} dataSource={millBalanceData} />
+            <Table columns={mill_balance} dataSource={millBalanceData} scroll={{
+                    x: 700,
+                  }} />
           </div>
        
       </div>

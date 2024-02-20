@@ -133,7 +133,9 @@ const ProductList = () => {
       ) : (
         <div>
           <h3 className="mb-4"> Total Receive Product : {rcvProduct} </h3>
-          <Table columns={columns} dataSource={productData}></Table>
+          <Table columns={columns} dataSource={productData} scroll={{
+                    x: 900,
+                  }}></Table>
           <CustomModal
             open={open}
             title="Are you sure you want to delete this product?"
