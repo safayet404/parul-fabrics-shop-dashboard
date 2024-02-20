@@ -38,7 +38,6 @@ const updateCustomer = async (customer) => {
       `${base_url}customer/update-customer/${customer.id}`,
       {
         name: customer.customerData.name,
-        email: customer.customerData.email,
         mobile: customer.customerData.mobile,
         address: customer.customerData.address,
       }

@@ -4,17 +4,15 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 
 import { useLocation, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+
 import {
   createCustomer,
-  getSingleCustomer,
   updateCustomer,
 } from "../features/customer/customerSlice";
 
 let schema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
-  email: Yup.string().required("Email is required"),
   mobile: Yup.string().required("Mobile is required"),
   address: Yup.string().required("Address is required"),
 });
@@ -30,7 +28,7 @@ const AddCustomer = () => {
     enableReinitialize: true,
     initialValues: {
       name: "",
-      email: "",
+    
       mobile: "",
       address: "",
     },
@@ -67,17 +65,6 @@ const AddCustomer = () => {
           />
           <div className="error">
             {formik.touched.name && formik.errors.name}
-          </div>
-          <CustomInput
-            type="email"
-            name="email"
-            onChange={formik.handleChange("email")}
-            onBlue={formik.handleBlur("email")}
-            value={formik.values.email}
-            placeholder="Enter the Customer Email"
-          />
-          <div className="error">
-            {formik.touched.email && formik.errors.email}
           </div>
           <CustomInput
             type="text"

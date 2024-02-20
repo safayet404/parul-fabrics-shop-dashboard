@@ -47,7 +47,7 @@ const AllSellData = () => {
     dispatch(getAllSellDetails());
   }, []);
   const sell_state = useSelector((state) => state.sell.sells);
-  const sellLoader = useSelector((state)=>state.sell.isLoading)
+  const sellLoader = useSelector((state) => state.sell.isLoading);
   useEffect(() => {
     dispatch(getCustomers());
   }, []);
@@ -74,15 +74,24 @@ const AllSellData = () => {
 
   return (
     <div>
-      {sellLoader ? (<div className="text-center"><ClipLoader/></div>) : (<div>
-        <h3 className="mb-4 title mt-4">Total Bills : {totalBill}</h3>
-      <div>
-        <Table columns={sell_column} dataSource={sellData} scroll={{
-                    x: 700,
-                  }} />
-      </div>
-      </div>)}
-     
+      {sellLoader ? (
+        <div className="text-center">
+          <ClipLoader />
+        </div>
+      ) : (
+        <div>
+          <h3 className="mb-4 title mt-4">Total Bills : {totalBill}</h3>
+          <div>
+            <Table
+              columns={sell_column}
+              dataSource={sellData}
+              scroll={{
+                x: 700,
+              }}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -13,6 +13,7 @@ const Dashboard = () => {
   const [stock, setStock] = useState(null);
   const [totalAmount, setTotalAmount] = useState(null);
   const [rcvTotalAmount, setRcvTotalAmount] = useState(null);
+  let totalBalance = rcvTotalAmount - totalAmount
   const dispatch = useDispatch();
   const [balanceState, setBalanceState] = useState(
     rcvTotalAmount - totalAmount
@@ -167,14 +168,14 @@ const Dashboard = () => {
       <h3 className="mb-4">Dashboard</h3>
       <div className="d-flex justify-content-between align-items-center gap-3">
         <div className="d-flex justify-content-between align-items-end flex-grow-1 bg-white p-3 roudned-3">
-          {!(rcvTotalAmount - totalAmount) ? (
+          { !totalBalance  ? (
             <div className="text-center">
               <ClipLoader />
             </div>
           ) : (
             <div>
               <p className="desc">Total Balance</p>
-              <h4 className="mb-0 sub-title">{rcvTotalAmount - totalAmount}</h4>
+              <h4 className="mb-0 sub-title"> {totalBalance ? totalBalance : 0} </h4>
             </div>
           )}
 
