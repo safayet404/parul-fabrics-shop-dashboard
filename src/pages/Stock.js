@@ -93,7 +93,7 @@ const Stock = () => {
 
   return (
     <div>
-      {(stock <= 0 ? 0 : !stock )? (
+      {stock <= 0? (
         <div className="text-center mt-5">
           <ClipLoader />
         </div>
