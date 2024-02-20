@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 
 import { getCustomers } from "../features/customer/customerSlice";
 import { getAllReceiveData } from "../features/receive/receiveSlice";
+import { ClipLoader } from "react-spinners";
 
 const rcv_column = [
   {
@@ -41,6 +42,7 @@ const AllReceiveData = () => {
     dispatch(getCustomers());
   }, []);
   const receive_state = useSelector((state) => state.receive.receives);
+  const receiveLoader = useSelector((state) => state.receive.isLoading);
   const customer_state = useSelector((state) => state.customer.customers);
 
   const receiveData = [];
@@ -69,11 +71,19 @@ const AllReceiveData = () => {
 
   return (
     <div>
-      {" "}
-      <h3 className="mb-4 title mt-4">Total Receive : {totalRcv}</h3>
-      <div>
-        <Table columns={rcv_column} dataSource={receiveData} />
-      </div>
+      {receiveLoader ? (
+        <div className="text-center mt-5">
+          <ClipLoader />
+        </div>
+      ) : (
+        <div>
+          {" "}
+          <h3 className="mb-4 title mt-4">Total Receive : {totalRcv}</h3>
+          <div>
+            <Table columns={rcv_column} dataSource={receiveData} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

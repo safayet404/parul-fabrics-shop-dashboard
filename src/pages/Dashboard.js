@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BsArrowDownRight } from "react-icons/bs";
+import { ClipLoader, RingLoader } from "react-spinners";
 import { Column } from "@ant-design/plots";
 import { Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,6 +14,9 @@ const Dashboard = () => {
   const [totalAmount, setTotalAmount] = useState(null);
   const [rcvTotalAmount, setRcvTotalAmount] = useState(null);
   const dispatch = useDispatch();
+  const [balanceState, setBalanceState] = useState(
+    rcvTotalAmount - totalAmount
+  );
 
   const sell_column = [
     {
@@ -42,24 +45,17 @@ const Dashboard = () => {
     },
   ];
 
-
   useEffect(() => {
     dispatch(getAllSellDetails());
     dispatch(getProducts());
     dispatch(getAllExpense());
     dispatch(getBalance());
   }, []);
-  useEffect(() => {
-  }, []);
-  useEffect(() => {
-  }, []);
-  useEffect(() => {
-  }, []);
   const product_state = useSelector((state) => state.product.products);
   const sell_state = useSelector((state) => state.sell.sells);
   const expense_state = useSelector((state) => state.expense.expenses);
   const balance_state = useSelector((state) => state.balance.balances);
-
+  const sellLoader = useSelector((state) => state.sell.isLoading);
   const productData = [];
   const updatedProductQuantity = [];
 
@@ -78,18 +74,19 @@ const Dashboard = () => {
     updatedProductQuantity.push(remainQty);
   }
   const sellData = [];
-  for (let index = 0; sell_state?.length && index < sell_state.length; index++) {
-   
-      sellData.push({
-        date: ChangeDateFormat(sell_state[index].date),
-        name: sell_state[index].customerId.name,
-        quantity: sell_state[index].quantity,
-        description: sell_state[index].description.title,
-        price: sell_state[index].price,
-        totalPrice: sell_state[index].totalPrice,
-       
-      });
-    
+  for (
+    let index = 0;
+    sell_state?.length && index < sell_state.length;
+    index++
+  ) {
+    sellData.push({
+      date: ChangeDateFormat(sell_state[index].date),
+      name: sell_state[index].customerId.name,
+      quantity: sell_state[index].quantity,
+      description: sell_state[index].description.title,
+      price: sell_state[index].price,
+      totalPrice: sell_state[index].totalPrice,
+    });
   }
   useEffect(() => {
     let stockSum = 0;
@@ -103,15 +100,15 @@ const Dashboard = () => {
     let sum = 0;
     for (let index = 0; index < balance_state.length; index++) {
       sum = sum + balance_state[index].amount;
-      setRcvTotalAmount(sum);
     }
+    setRcvTotalAmount(sum);
   }, [balance_state]);
   useEffect(() => {
     let sum = 0;
     for (let index = 0; index < expense_state.length; index++) {
       sum = sum + expense_state[index].amount;
-      setTotalAmount(sum);
     }
+    setTotalAmount(sum);
   }, [expense_state]);
 
   const getTotalSalesByMonth = () => {
@@ -170,24 +167,37 @@ const Dashboard = () => {
       <h3 className="mb-4">Dashboard</h3>
       <div className="d-flex justify-content-between align-items-center gap-3">
         <div className="d-flex justify-content-between align-items-end flex-grow-1 bg-white p-3 roudned-3">
-          <div>
-            <p className="desc">Total Balance</p>
-            <h4 className="mb-0 sub-title">{rcvTotalAmount - totalAmount}</h4>
-          </div>
+          {!(rcvTotalAmount - totalAmount) ? (
+            <div className="text-center">
+              <ClipLoader />
+            </div>
+          ) : (
+            <div>
+              <p className="desc">Total Balance</p>
+              <h4 className="mb-0 sub-title">{rcvTotalAmount - totalAmount}</h4>
+            </div>
+          )}
+
           <div className="d-flex flex-column align-items-end"></div>
         </div>
         <div className="d-flex justify-content-between align-items-end flex-grow-1 bg-white p-3 roudned-3">
-          <div>
-            <p className="desc">Total Product Stock</p>
-            <h4 className="mb-0 sub-title">{stock}</h4>
-          </div>
+          {!stock ? (
+            <div className="text-center">
+              <ClipLoader />
+            </div>
+          ) : (
+            <div>
+              {" "}
+              <p className="desc">Total Product Stock</p>
+              <h4 className="mb-0 sub-title">{stock}</h4>
+            </div>
+          )}
         </div>
         <div className="d-flex justify-content-between align-items-end flex-grow-1 bg-white p-3 roudned-3">
           <div>
             <p className="desc">Users</p>
             <h4 className="mb-0 sub-title">2 Person</h4>
           </div>
-         
         </div>
       </div>
       <div className="mt-4">
@@ -198,8 +208,16 @@ const Dashboard = () => {
       </div>
 
       <div className="mt-4">
-        <h3 className="mb-4">Recent Sells</h3>
-        <Table columns={sell_column} dataSource={sellData}></Table>
+        {sellLoader ? (
+          <div className="text-center mt-5">
+            <ClipLoader />
+          </div>
+        ) : (
+          <div>
+            <h3 className="mb-4">Recent Sells</h3>
+            <Table columns={sell_column} dataSource={sellData}></Table>
+          </div>
+        )}
       </div>
     </div>
   );

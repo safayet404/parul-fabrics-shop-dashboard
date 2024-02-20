@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../features/product/productSlice";
 import { getAllSellDetails } from "../features/sell/sellSlice";
+import { ClipLoader } from "react-spinners";
 
 const columns = [
   {
@@ -32,11 +33,7 @@ const columns = [
     key: "quantity",
     sorter: (a, b) => a.quantity.length - b.quantity.length,
   },
- 
-  
- 
 ];
-
 
 const Stock = () => {
   const [stock, setStock] = useState(null);
@@ -53,27 +50,23 @@ const Stock = () => {
   }, []);
 
   const product_state = useSelector((state) => state.product.products);
+  const productLoader = useSelector((state) => state.product.isLoading);
   const sell_state = useSelector((state) => state.sell.sells);
+  const sellLoader = useSelector((state) => state.sell.isLoading);
   const productData = [];
 
-
- const updatedProductQuantity = []
+  const updatedProductQuantity = [];
 
   for (let i = 0; i < product_state.length; i++) {
-    let remainQty = product_state[i].quantity
-   
-    for(let j=0; j<sell_state.length; j++)
-    {
-      if(product_state[i]._id === sell_state[j].description._id)
-      {
-        remainQty -= sell_state[j].quantity
-       
-       
+    let remainQty = product_state[i].quantity;
+
+    for (let j = 0; j < sell_state.length; j++) {
+      if (product_state[i]._id === sell_state[j].description._id) {
+        remainQty -= sell_state[j].quantity;
       }
     }
-  
+
     productData.push({
-      
       name: product_state[i].title,
       description: (
         <p
@@ -86,17 +79,12 @@ const Stock = () => {
       color: product_state[i].color,
       date: changeDateFormat(product_state[i].date),
     });
-    updatedProductQuantity.push(
-      remainQty
-    )
-    
-   
+    updatedProductQuantity.push(remainQty);
   }
 
   useEffect(() => {
     let stockSum = 0;
     for (let index = 0; index < updatedProductQuantity.length; index++) {
-      
       stockSum = stockSum + updatedProductQuantity[index];
     }
     setStock(stockSum);
@@ -104,8 +92,16 @@ const Stock = () => {
 
   return (
     <div>
-      <h3 className="mb-4">Total Stock : {stock} </h3>
-      <Table columns={columns} dataSource={productData}></Table>
+      {!stock ? (
+        <div className="text-center mt-5">
+          <ClipLoader />
+        </div>
+      ) : (
+        <div>
+          <h3 className="mb-4">Total Stock : {stock} </h3>
+          <Table columns={columns} dataSource={productData}></Table>
+        </div>
+      )}
     </div>
   );
 };

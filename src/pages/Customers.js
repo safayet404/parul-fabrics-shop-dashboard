@@ -7,6 +7,7 @@ import { AiFillDelete } from "react-icons/ai";
 import { FaEye } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import CustomModal from "../components/CustomModal";
+import { ClipLoader } from "react-spinners";
 
 const columns = [
   {
@@ -52,11 +53,15 @@ const Customers = () => {
    const deleteCustomerInfo = (e) =>{
     dispatch(deleteCustomer(e))
     setOpen(false)
-    setTimeout(()=>{
-      dispatch(getCustomers())
-    },100)
+    
    }
   const customer_state = useSelector((state) => state.customer.customers);
+  const {updatedCustomer,deletedCustomer,isLoading,createdProduct} = useSelector((state)=>state.customer)
+
+  useEffect(()=>{
+    dispatch(getCustomers())
+
+  },[updatedCustomer,deletedCustomer,createdProduct])
   
   const data1 = [];
   for (let i = 0; i < customer_state.length; i++) {
@@ -89,6 +94,8 @@ const Customers = () => {
 
   return (
     <div>
+      {isLoading ? (<div className="text-center mt-5"><ClipLoader/></div>) :
+      <div>
       <h3 className="mb-4 title">Customers</h3>
       <div>
         <Table columns={columns} dataSource={data1} />
@@ -102,6 +109,7 @@ const Customers = () => {
         
         title="Are you sure you want to delete this Customer?"
         />
+        </div>}
     </div>
   );
 };

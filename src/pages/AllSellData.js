@@ -6,6 +6,7 @@ import { getAllSellDetails } from "../features/sell/sellSlice";
 import { useEffect, useState } from "react";
 
 import { getCustomers } from "../features/customer/customerSlice";
+import { ClipLoader } from "react-spinners";
 
 const sell_column = [
   {
@@ -46,6 +47,7 @@ const AllSellData = () => {
     dispatch(getAllSellDetails());
   }, []);
   const sell_state = useSelector((state) => state.sell.sells);
+  const sellLoader = useSelector((state)=>state.sell.isLoading)
   useEffect(() => {
     dispatch(getCustomers());
   }, []);
@@ -72,11 +74,13 @@ const AllSellData = () => {
 
   return (
     <div>
-      {" "}
-      <h3 className="mb-4 title mt-4">Total Bills : {totalBill}</h3>
+      {sellLoader ? (<div className="text-center"><ClipLoader/></div>) : (<div>
+        <h3 className="mb-4 title mt-4">Total Bills : {totalBill}</h3>
       <div>
         <Table columns={sell_column} dataSource={sellData} />
       </div>
+      </div>)}
+     
     </div>
   );
 };
