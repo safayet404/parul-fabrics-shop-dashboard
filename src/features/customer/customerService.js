@@ -60,6 +60,8 @@ const deleteCustomer = async (id) => {
     if (response.status === 200) {
       toast.success("Customer Deleted Successfully !");
     }
+
+    return response.data
   } catch (error) {
     toast.error("Something Went Wrong !");
   }
