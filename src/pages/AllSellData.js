@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 
 import { getCustomers } from "../features/customer/customerSlice";
 import { ClipLoader } from "react-spinners";
+import { TbCurrencyTaka } from "react-icons/tb";
 
 const sell_column = [
   {
@@ -82,7 +83,7 @@ const AllSellData = () => {
         </div>
       ) : (
         <div>
-          <h3 className="mb-4 title mt-4">Total Bills : {totalBill}</h3>
+          <h3 className="mb-4 title mt-4">Total Bills : {totalBill} <TbCurrencyTaka/> </h3>
           <div>
             <Table
               columns={sell_column}

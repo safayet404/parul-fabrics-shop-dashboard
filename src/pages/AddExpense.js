@@ -2,13 +2,12 @@ import CustomInput from "../components/CustomInput";
 import { Table } from "antd";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { ClipLoader, RingLoader } from "react-spinners";
+import { ClipLoader } from "react-spinners";
 import { useDispatch, useSelector } from "react-redux";
-
+import { TbCurrencyTaka } from "react-icons/tb";
 import { useEffect, useState } from "react";
 import { BiEdit } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
-
 import { Link } from "react-router-dom";
 import CustomModal from "../components/CustomModal";
 import {
@@ -124,7 +123,7 @@ const AddExpense = () => {
 
   const sellUpdate = useSelector((state) => state.expense);
   const { createdExpense, updatedExpense, deletedExpenseData } = sellUpdate;
-  const { createdBalance, updatedBalance, deletedBalance, isLoading } = useSelector((state) => state.balance);
+  const { createdBalance, updatedBalance, deletedBalance } = useSelector((state) => state.balance);
   const expenseLoader = useSelector((state) => state.expense.isLoading);
   const balanceLoader = useSelector((state) => state.balance.isLoading);
 
@@ -247,7 +246,7 @@ const AddExpense = () => {
       <div>
         <div className="row mb-5">
           <div className="col-6">
-            <h2>Balance : {rcvTotalAmount - totalAmount} </h2>
+            <h2>Balance : {rcvTotalAmount - totalAmount} <TbCurrencyTaka/> </h2>
           </div>
           <div className="col-6">
             <h2> </h2>
@@ -368,7 +367,7 @@ const AddExpense = () => {
           <div className="row">
             <div className="col-6">
               <h3 className="mb-4 title mt-4">
-                Total Bills : {totalAmount ? totalAmount : 0}
+                Total Bills : {totalAmount ? totalAmount : 0} <TbCurrencyTaka/>
               </h3>
               {expenseLoader ? (
                 <div className="text-center mt-5">
@@ -384,7 +383,7 @@ const AddExpense = () => {
             </div>
             <div className="col-6">
               <h3 className="mb-4 title mt-4">
-                Total Receive Amount : {rcvTotalAmount ? rcvTotalAmount : 0}
+                Total Receive Amount : {rcvTotalAmount ? rcvTotalAmount : 0} <TbCurrencyTaka/>
               </h3>
               {balanceLoader ? (
                 <div className="text-center mt-5">

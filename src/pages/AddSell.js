@@ -28,6 +28,7 @@ import CustomModal from "../components/CustomModal";
 import { getFactories } from "../features/factory/factorySlice";
 import { deleteProduct, getProducts } from "../features/product/productSlice";
 import { ClipLoader } from "react-spinners";
+import { TbCurrency, TbCurrencyTaka } from "react-icons/tb";
 const sell_column = [
   {
     title: "SNo",
@@ -156,6 +157,8 @@ const AddSell = () => {
     dispatch(getProducts());
   }, []);
 
+  const all_sell = useSelector((state) => state.sell.sells);
+
   const sell_state = useSelector((state) => state.sell.singleSellData);
   const sellLoader = useSelector((state) => state.sell.isLoading);
   const receive_state = useSelector((state) => state.receive.singleReceiveData);
@@ -235,6 +238,26 @@ const AddSell = () => {
     }
   }
 
+  const stockProduct = []
+  for (let i = 0; i < product_state.length; i++) {
+    let remainQty = product_state[i].quantity;
+
+    for (let j = 0; j < all_sell.length; j++) {
+      if (product_state[i]._id === all_sell[j].description._id) {
+        remainQty -= all_sell[j].quantity;
+      }
+    }
+
+    if(remainQty !== 0)
+    {
+      stockProduct.push({
+        title:  product_state[i].title,
+        id : product_state[i]._id
+      });
+    }
+   
+  }
+
   useEffect(() => {
     let sum = 0;
     for (let index = 0; index < sell_state.length; index++) {
@@ -302,8 +325,8 @@ const AddSell = () => {
           <h2>
             {" "}
             {dueOrBalance < 0
-              ? `Total Advance Balance : ${-dueOrBalance}`
-              : `Total Due Amount : ${dueOrBalance}`}{" "}
+              ? `Total Advance Balance : ${-dueOrBalance} `
+              : `Total Due Amount : ${dueOrBalance}`}{" "} <TbCurrencyTaka/>
           </h2>
         </div>
       </div>
@@ -334,9 +357,9 @@ const AddSell = () => {
               value={formik.values.description}
             >
               <option value="">Select the Product</option>
-              {product_state.map((i, j) => {
+              {stockProduct.map((i, j) => {
                 return (
-                  <option key={j} value={i._id}>
+                  <option key={j} value={i.id}>
                     {i.title}
                   </option>
                 );
@@ -447,7 +470,7 @@ const AddSell = () => {
               </div>
             ) : (
               <div>
-                <h3 className="mb-4 title mt-4">Total Bills : {totalAmount}</h3>
+                <h3 className="mb-4 title mt-4">Total Bills : {totalAmount} <TbCurrencyTaka/> </h3>
                 <div >
                   <Table className="responsive-table" columns={sell_column} dataSource={sellData} 
                    scroll={{
@@ -467,7 +490,7 @@ const AddSell = () => {
             ) : (
               <div>
                 <h3 className="mb-4 title mt-4">
-                  Total Receive Amount : {rcvTotalAmount}
+                  Total Receive Amount : {rcvTotalAmount}  <TbCurrencyTaka/>
                 </h3>
                 <div>
                   <Table columns={rcv_column} dataSource={receiveData}  scroll={{

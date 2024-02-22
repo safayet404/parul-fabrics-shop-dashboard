@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { getCustomers } from "../features/customer/customerSlice";
 import { getAllReceiveData } from "../features/receive/receiveSlice";
 import { ClipLoader } from "react-spinners";
+import { TbCurrencyTaka } from "react-icons/tb";
 
 const rcv_column = [
   {
@@ -84,7 +85,7 @@ const AllReceiveData = () => {
       ) : (
         <div>
           {" "}
-          <h3 className="mb-4 title mt-4">Total Receive : {totalRcv}</h3>
+          <h3 className="mb-4 title mt-4">Total Receive : {totalRcv} <TbCurrencyTaka/> </h3>
           <div>
             <Table columns={rcv_column} dataSource={receiveData} scroll={{
                     x: 700,

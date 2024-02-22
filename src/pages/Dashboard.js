@@ -8,6 +8,7 @@ import { getProducts } from "../features/product/productSlice";
 import ChangeDateFormat from "../components/ChangeDateFormat";
 import { getAllExpense } from "../features/expense/expenseSlice";
 import { getBalance } from "../features/balance/balanceSlice";
+import { TbCurrencyTaka } from "react-icons/tb";
 
 const Dashboard = () => {
   const [stock, setStock] = useState(null);
@@ -175,7 +176,7 @@ const Dashboard = () => {
           ) : (
             <div>
               <p className="desc">Total Balance</p>
-              <h4 className="mb-0 sub-title"> {totalBalance ? totalBalance : 0} </h4>
+              <h4 className="mb-0 sub-title"> {totalBalance ? totalBalance : 0} <TbCurrencyTaka/> </h4>
             </div>
           )}
 

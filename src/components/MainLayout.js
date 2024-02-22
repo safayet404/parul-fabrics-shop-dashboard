@@ -3,14 +3,14 @@ import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { Layout, Menu, Button, theme } from "antd";
 import { TfiDashboard } from "react-icons/tfi";
 import { BsFillCartCheckFill } from "react-icons/bs";
-import {
-  AiFillFileAdd,
-} from "react-icons/ai";
-
-
-
+import { AiFillFileAdd } from "react-icons/ai";
+import { MdSell } from "react-icons/md";
+import { GiExpense } from "react-icons/gi";
+import { GiReceiveMoney } from "react-icons/gi";
 import { IoIosNotifications } from "react-icons/io";
 import { FaPeopleGroup } from "react-icons/fa6";
+import { GiRolledCloth } from "react-icons/gi";
+import { GiFactory } from "react-icons/gi";
 import { Outlet, useNavigate } from "react-router-dom";
 
 const { Header, Sider, Content } = Layout;
@@ -24,13 +24,13 @@ const MainLayout = () => {
   return (
     <Layout>
       <Sider trigger={null} collapsible collapsed={collapsed}>
-        <div className="logo">
-          <h1 className="text-white fs-5 text-center py-3 mb-0">
-            <span className="lg-logo">PARUL FABRICS</span>
-            <span className="sm-logo">PF</span>
-          </h1>
-        </div>
-
+        <div className="position-sticky top-0">
+          <div className="logo">
+            <h1 className="text-white fs-5 text-center py-3 mb-0">
+              <span className="lg-logo">PARUL FABRICS</span>
+              <span className="sm-logo">PF</span>
+            </h1>
+          </div>
         <Menu
           theme="dark"
           mode="inline"
@@ -47,36 +47,36 @@ const MainLayout = () => {
               icon: <TfiDashboard className="fs-4" />,
               label: "Dashboard",
             },
-          
+
             {
               key: "all-sell",
-              icon: <FaPeopleGroup className="fs-4" />,
+              icon: <MdSell className="fs-4" />,
               label: "All Sell Data",
             },
             {
               key: "all-receive",
-              icon: <FaPeopleGroup className="fs-4" />,
+              icon: <GiReceiveMoney className="fs-4" />,
               label: "All Receive Data",
             },
             {
               key: "daily-expense",
-              icon: <FaPeopleGroup className="fs-4" />,
+              icon: <GiExpense className="fs-4" />,
               label: "Daily Expenses",
             },
             {
               key: "stock",
-              icon: <FaPeopleGroup className="fs-4" />,
+              icon: <GiRolledCloth className="fs-4" />,
               label: "Stock",
+            },
+            {
+              key: "add-customers",
+              icon: <AiFillFileAdd className="fs-4" />,
+              label: "Add Customers",
             },
             {
               key: "customers",
               icon: <FaPeopleGroup className="fs-4" />,
               label: "Customers",
-            },
-            {
-              key: "add-customers",
-              icon: <FaPeopleGroup className="fs-4" />,
-              label: "Add Customers",
             },
             {
               key: "product",
@@ -90,12 +90,12 @@ const MainLayout = () => {
             },
             {
               key: "add-mill",
-              icon: <BsFillCartCheckFill className="fs-4" />,
+              icon: <AiFillFileAdd className="fs-4" />,
               label: "Add Yarn & Bills Factory",
             },
             {
               key: "mills",
-              icon: <BsFillCartCheckFill className="fs-4" />,
+              icon: <GiFactory className="fs-4" />,
               label: "Yarn & Bills Factory",
             },
             // {
@@ -103,13 +103,12 @@ const MainLayout = () => {
             //   icon: <GiCatapult className="fs-4" />,
             //   label: "Catalog",
             //   children: [
-               
-               
-               
+
             //   ],
             // },
           ]}
         />
+        </div>
       </Sider>
       <Layout>
         <Header
@@ -141,7 +140,6 @@ const MainLayout = () => {
                 <img width={32} height={32} src="images/araf.jpg" alt=" " />
               </div>
               <div
-               
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
                 role="button"
@@ -152,7 +150,7 @@ const MainLayout = () => {
               <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 <li>
                   <a class="dropdown-item" href="/d">
-                   Log Out
+                    Log Out
                   </a>
                 </li>
               </div>
@@ -167,7 +165,6 @@ const MainLayout = () => {
             background: colorBgContainer,
           }}
         >
-          
           <Outlet />
         </Content>
       </Layout>
