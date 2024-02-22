@@ -89,6 +89,11 @@ const MainLayout = () => {
               label: "Product List",
             },
             {
+              key: "add-user",
+              icon: <AiFillFileAdd className="fs-4" />,
+              label: "Add User",
+            },
+            {
               key: "add-mill",
               icon: <AiFillFileAdd className="fs-4" />,
               label: "Add Yarn & Bills Factory",

@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter as Router, createBrowserRouter as Ami, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router,  Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import ResetPassword from "./pages/ResetPassword";
 import MainLayout from "./components/MainLayout";
@@ -25,6 +25,7 @@ import AddExpense from "./pages/AddExpense";
 import EditExpense from "./pages/EditExpense";
 import EditBalance from "./pages/EditBalance";
 import MillsBalance from "./pages/MillsBalance";
+import AddUser from "./pages/AddUser";
 function App() {
   return (
     <div className="App">
@@ -48,6 +49,7 @@ function App() {
             <Route path="stock" element={<Stock />}></Route>
             <Route path="mills" element={<Factory />}></Route>
             <Route path="add-mill" element={<AddMill />}></Route>
+            <Route path="add-user" element={<AddUser />}></Route>
             <Route path="add-mill/:id" element={<AddMill />}></Route>
             
             <Route path="daily-expense" element={<AddExpense />}></Route>

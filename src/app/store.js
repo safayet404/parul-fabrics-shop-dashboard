@@ -7,6 +7,7 @@ import receiveReducer from "../features/receive/receiveSlice";
 import factoryReducer from "../features/factory/factorySlice";
 import expenseReducer from "../features/expense/expenseSlice";
 import balanceReducer from "../features/balance/balanceSlice";
+import userReducer from "../features/dashboard-user/dashboardUserSlice";
 
 
 export const store = configureStore({
@@ -16,7 +17,7 @@ export const store = configureStore({
     product: productReducer,
    
     factory : factoryReducer,
-   
+   user : userReducer,
     sell : sellReducer,
     receive : receiveReducer,
     expense : expenseReducer,
