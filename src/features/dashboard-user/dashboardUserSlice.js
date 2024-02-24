@@ -20,6 +20,14 @@ export const singleUser = createAsyncThunk("dashboard/single-user",async(id,thun
         return thunkAPI.rejectWithValue(error)
     }
 })
+export const singleUserByMail = createAsyncThunk("dashboard/user-by-mail",async(email,thunkAPI)=>{
+    try{
+        return await dashboardUserService.singleUserByMail(email)
+    }catch(error)
+    {
+        return thunkAPI.rejectWithValue(error)
+    }
+})
 
 export const addUser = createAsyncThunk("dashboard/add-user",async(userData,thunkAPI)=>{
     try{
@@ -50,6 +58,7 @@ export const deleteUser = createAsyncThunk("dashboard/delete-user",async(id,thun
 const initialState={
     users : [],
     singleUser : [],
+    singleUserByMail : [],
     isError : false,
     isLoading : false,
     isSuccess : false,
@@ -89,6 +98,21 @@ export const userSlice = createSlice({
             state.singleUser = action.payload
         })
         .addCase(singleUser.rejected,(state,action)=>{
+            state.isLoading = false
+            state.isError = true
+            state.isSuccess = false
+            state.message = action.error
+        })
+        .addCase(singleUserByMail.pending,(state)=>{
+            state.isLoading = true
+        })
+        .addCase(singleUserByMail.fulfilled,(state,action)=>{
+            state.isLoading = false
+            state.isError = false
+            state.isSuccess = true
+            state.singleUserByMail = action.payload
+        })
+        .addCase(singleUserByMail.rejected,(state,action)=>{
             state.isLoading = false
             state.isError = true
             state.isSuccess = false

@@ -35,6 +35,16 @@ const singleUser = async(id)=>{
         toast.error("Something Went Wrong !")
     }
 }
+const singleUserByMail = async(email)=>{
+    try{
+        const response = await axios.get(`${base_url}dashboardUser/user-mail/${email}`)
+        return response.data
+    }catch(error)
+    {
+        console.log(error);
+        toast.error("Something Went Wrong here !")
+    }
+}
 
 const updateUser = async(user) =>{
     try{
@@ -75,7 +85,8 @@ const dashboardUserService = {
     allUser,
     singleUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    singleUserByMail
 }
 
 export default dashboardUserService

@@ -1,23 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CustomInput from "../components/CustomInput";
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { login } from "../features/auth/authSlice";
-import { useEffect } from "react";
 import {
   getAuth,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-
 import app from "../utils/firebaseConfig";
 import toast from "react-hot-toast";
+import useUserStore from "../components/StateManagement";
 
 const Login = () => {
-  const dispatch = useDispatch();
-  const [loginUser, setLoginUser] = useState(null);
+  //const [loginUser, setLoginUser] = useState(null);
+  const {setLoginUser} = useUserStore()
 
   const auth = getAuth(app);
 
@@ -26,6 +23,8 @@ const Login = () => {
     email: Yup.string().email().required(),
     password: Yup.string().required(),
   });
+
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -37,20 +36,23 @@ const Login = () => {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          setLoginUser(user);
-          // ...
+       
+          setLoginUser(user)
+          localStorage.setItem('user', JSON.stringify(user));
+          toast.success("Login Successfully !")
+          navigate("/admin")
         })
         .catch((error) => {
           const errorCode = error.code;
+          toast.error("Invalid Credentials !")
           const errorMessage = error.message;
         });
+  
+
     },
   });
 
-  if (loginUser !== null) {
-    toast.success("Login Successfully !");
-    navigate("/admin");
-  }
+
 
   return (
     <div

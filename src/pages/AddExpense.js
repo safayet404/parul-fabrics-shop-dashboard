@@ -1,5 +1,5 @@
 import CustomInput from "../components/CustomInput";
-import { Table } from "antd";
+import { Table} from "antd";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { ClipLoader } from "react-spinners";
@@ -123,7 +123,9 @@ const AddExpense = () => {
 
   const sellUpdate = useSelector((state) => state.expense);
   const { createdExpense, updatedExpense, deletedExpenseData } = sellUpdate;
-  const { createdBalance, updatedBalance, deletedBalance } = useSelector((state) => state.balance);
+  const { createdBalance, updatedBalance, deletedBalance } = useSelector(
+    (state) => state.balance
+  );
   const expenseLoader = useSelector((state) => state.expense.isLoading);
   const balanceLoader = useSelector((state) => state.balance.isLoading);
 
@@ -147,7 +149,7 @@ const AddExpense = () => {
 
   for (let i = 0; i < expense_state.length; i++) {
     expenseData.push({
-      key : i+1,
+      key: i + 1,
       date: changeDateFormat(expense_state[i].date),
       purpose: expense_state[i].purpose,
       amount: expense_state[i].amount,
@@ -174,7 +176,7 @@ const AddExpense = () => {
 
   for (let i = 0; i < balance_state.length; i++) {
     balanceData.push({
-      key : i+1,
+      key: i + 1,
       date: changeDateFormat(balance_state[i].date),
       description: balance_state[i].description,
       amount: balance_state[i].amount,
@@ -229,10 +231,10 @@ const AddExpense = () => {
 
   useEffect(() => {
     let sum = 0;
-      for (let index = 0; index < balance_state.length; index++) {
-        sum = sum + balance_state[index].amount;
-      }
-      setRcvTotalAmount(sum);
+    for (let index = 0; index < balance_state.length; index++) {
+      sum = sum + balance_state[index].amount;
+    }
+    setRcvTotalAmount(sum);
   }, [balance_state]);
   useEffect(() => {
     let sum = 0;
@@ -241,12 +243,15 @@ const AddExpense = () => {
     }
     setTotalAmount(sum);
   }, [expense_state]);
+
   return (
     <div>
       <div>
         <div className="row mb-5">
           <div className="col-6">
-            <h2>Balance : {rcvTotalAmount - totalAmount} <TbCurrencyTaka/> </h2>
+            <h2>
+              Balance : {rcvTotalAmount - totalAmount} <TbCurrencyTaka />{" "}
+            </h2>
           </div>
           <div className="col-6">
             <h2> </h2>
@@ -367,7 +372,7 @@ const AddExpense = () => {
           <div className="row">
             <div className="col-6">
               <h3 className="mb-4 title mt-4">
-                Total Bills : {totalAmount ? totalAmount : 0} <TbCurrencyTaka/>
+                Total Bills : {totalAmount ? totalAmount : 0} <TbCurrencyTaka />
               </h3>
               {expenseLoader ? (
                 <div className="text-center mt-5">
@@ -375,15 +380,20 @@ const AddExpense = () => {
                 </div>
               ) : (
                 <div>
-                  <Table columns={daily_expense} dataSource={expenseData} scroll={{
-                    x: 700,
-                  }} />
+                  <Table
+                    columns={daily_expense}
+                    dataSource={expenseData}
+                    scroll={{
+                      x: 700,
+                    }}
+                  />
                 </div>
               )}
             </div>
             <div className="col-6">
               <h3 className="mb-4 title mt-4">
-                Total Receive Amount : {rcvTotalAmount ? rcvTotalAmount : 0} <TbCurrencyTaka/>
+                Total Receive Amount : {rcvTotalAmount ? rcvTotalAmount : 0}{" "}
+                <TbCurrencyTaka />
               </h3>
               {balanceLoader ? (
                 <div className="text-center mt-5">
@@ -392,9 +402,13 @@ const AddExpense = () => {
                 </div>
               ) : (
                 <div>
-                  <Table columns={daily_rcv} dataSource={balanceData} scroll={{
-                    x: 700,
-                  }} />
+                  <Table
+                    columns={daily_rcv}
+                    dataSource={balanceData}
+                    scroll={{
+                      x: 700,
+                    }}
+                  />
                 </div>
               )}
             </div>

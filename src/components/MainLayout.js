@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { Layout, Menu, Button, theme } from "antd";
 import { TfiDashboard } from "react-icons/tfi";
@@ -11,16 +11,54 @@ import { IoIosNotifications } from "react-icons/io";
 import { FaPeopleGroup } from "react-icons/fa6";
 import { GiRolledCloth } from "react-icons/gi";
 import { GiFactory } from "react-icons/gi";
-import { Outlet, useNavigate } from "react-router-dom";
-
+import { Link, Outlet, useNavigate } from "react-router-dom";
+import useUserStore from "./StateManagement";
+import { getAuth, signOut } from "firebase/auth";
+import app from "../utils/firebaseConfig";
+import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { singleUserByMail } from "../features/dashboard-user/dashboardUserSlice";
 const { Header, Sider, Content } = Layout;
-
 const MainLayout = () => {
+  const auth = getAuth(app);
+  const dispatch = useDispatch();
+
+  const { loginUser, setLoginUser } = useUserStore();
+  const local_data = JSON.parse(localStorage.getItem("user"));
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+
+      setLoginUser(null);
+      
+      navigate("/");
+      localStorage.removeItem('user');
+    } catch (error) {
+      console.error("Error logging out:", error.message);
+    }
+  };
+  useEffect(() => {
+    if (local_data === null) {
+      navigate("/");
+    }
+  }, []);
+
+  useEffect(() => {
+    if(local_data !== null)
+    {
+
+      dispatch(singleUserByMail(local_data.email));
+    }
+  }, []);
+  const login_state = useSelector((state) => state.user.singleUserByMail);
+
+
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
-  const navigate = useNavigate();
+
   return (
     <Layout>
       <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -31,88 +69,88 @@ const MainLayout = () => {
               <span className="sm-logo">PF</span>
             </h1>
           </div>
-        <Menu
-          theme="dark"
-          mode="inline"
-          defaultSelectedKeys={["1"]}
-          onClick={({ key }) => {
-            if (key === "signout") {
-            } else {
-              navigate(key);
-            }
-          }}
-          items={[
-            {
-              key: "",
-              icon: <TfiDashboard className="fs-4" />,
-              label: "Dashboard",
-            },
+          <Menu
+            theme="dark"
+            mode="inline"
+            defaultSelectedKeys={["1"]}
+            onClick={({ key }) => {
+              if (key === "signout") {
+              } else {
+                navigate(key);
+              }
+            }}
+            items={[
+              {
+                key: "",
+                icon: <TfiDashboard className="fs-4" />,
+                label: "Dashboard",
+              },
 
-            {
-              key: "all-sell",
-              icon: <MdSell className="fs-4" />,
-              label: "All Sell Data",
-            },
-            {
-              key: "all-receive",
-              icon: <GiReceiveMoney className="fs-4" />,
-              label: "All Receive Data",
-            },
-            {
-              key: "daily-expense",
-              icon: <GiExpense className="fs-4" />,
-              label: "Daily Expenses",
-            },
-            {
-              key: "stock",
-              icon: <GiRolledCloth className="fs-4" />,
-              label: "Stock",
-            },
-            {
-              key: "add-customers",
-              icon: <AiFillFileAdd className="fs-4" />,
-              label: "Add Customers",
-            },
-            {
-              key: "customers",
-              icon: <FaPeopleGroup className="fs-4" />,
-              label: "Customers",
-            },
-            {
-              key: "product",
-              icon: <AiFillFileAdd className="fs-4" />,
-              label: "Add Product",
-            },
-            {
-              key: "product-list",
-              icon: <BsFillCartCheckFill className="fs-4" />,
-              label: "Product List",
-            },
-            {
-              key: "add-user",
-              icon: <AiFillFileAdd className="fs-4" />,
-              label: "Add User",
-            },
-            {
-              key: "add-mill",
-              icon: <AiFillFileAdd className="fs-4" />,
-              label: "Add Yarn & Bills Factory",
-            },
-            {
-              key: "mills",
-              icon: <GiFactory className="fs-4" />,
-              label: "Yarn & Bills Factory",
-            },
-            // {
-            //   key: "catalog",
-            //   icon: <GiCatapult className="fs-4" />,
-            //   label: "Catalog",
-            //   children: [
+              {
+                key: "all-sell",
+                icon: <MdSell className="fs-4" />,
+                label: "All Sell Data",
+              },
+              {
+                key: "all-receive",
+                icon: <GiReceiveMoney className="fs-4" />,
+                label: "All Receive Data",
+              },
+              {
+                key: "daily-expense",
+                icon: <GiExpense className="fs-4" />,
+                label: "Daily Expenses",
+              },
+              {
+                key: "stock",
+                icon: <GiRolledCloth className="fs-4" />,
+                label: "Stock",
+              },
+              {
+                key: "add-customers",
+                icon: <AiFillFileAdd className="fs-4" />,
+                label: "Add Customers",
+              },
+              {
+                key: "customers",
+                icon: <FaPeopleGroup className="fs-4" />,
+                label: "Customers",
+              },
+              {
+                key: "product",
+                icon: <AiFillFileAdd className="fs-4" />,
+                label: "Add Product",
+              },
+              {
+                key: "product-list",
+                icon: <BsFillCartCheckFill className="fs-4" />,
+                label: "Product List",
+              },
+              {
+                key: "add-user",
+                icon: <AiFillFileAdd className="fs-4" />,
+                label: "Add User",
+              },
+              {
+                key: "add-mill",
+                icon: <AiFillFileAdd className="fs-4" />,
+                label: "Add Yarn & Bills Factory",
+              },
+              {
+                key: "mills",
+                icon: <GiFactory className="fs-4" />,
+                label: "Yarn & Bills Factory",
+              },
+              // {
+              //   key: "catalog",
+              //   icon: <GiCatapult className="fs-4" />,
+              //   label: "Catalog",
+              //   children: [
 
-            //   ],
-            // },
-          ]}
-        />
+              //   ],
+              // },
+            ]}
+          />
         </div>
       </Sider>
       <Layout>
@@ -149,14 +187,14 @@ const MainLayout = () => {
                 aria-expanded="false"
                 role="button"
               >
-                <h5>Navdeep</h5>
-                <p>hossainsafayet187@gmail.com</p>
+                <h5> {login_state.name} </h5>
+                <p> {local_data ? local_data.email : " "} </p>
               </div>
               <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 <li>
-                  <a class="dropdown-item" href="/d">
+                  <button class="dropdown-item" onClick={handleLogout}>
                     Log Out
-                  </a>
+                  </button>
                 </li>
               </div>
             </div>

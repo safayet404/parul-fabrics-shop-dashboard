@@ -2,12 +2,11 @@ import React from "react";
 import CustomInput from "../components/CustomInput";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-
-import { useDispatch, useSelector } from "react-redux";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 import { addUser } from "../features/dashboard-user/dashboardUserSlice";
-
+import app from "../utils/firebaseConfig";
 
 let schema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
@@ -19,26 +18,36 @@ let schema = Yup.object().shape({
 });
 
 const AddUser = () => {
+  const auth = getAuth(app);
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
   const getFactoryId = location.pathname.split("/")[3];
 
-
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      name:  "",
-      email:  "",
-      password:  "",
-      mobile:  "",
-      role:  "",
-      address:  "",
+      name: "",
+      email: "",
+      password: "",
+      mobile: "",
+      role: "",
+      address: "",
     },
     validationSchema: schema,
     onSubmit: (values) => {
-     alert(JSON.stringify(values))
-     dispatch(addUser(values))
+      dispatch(addUser(values));
+      createUserWithEmailAndPassword(auth, values.email, values.password)
+        .then((userCredential) => {
+          // Signed up
+          const user = userCredential.user;
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // ..
+        });
     },
   });
   return (
