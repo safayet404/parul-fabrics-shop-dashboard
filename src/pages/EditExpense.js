@@ -40,13 +40,14 @@ const EditExpense = () => {
 
   const single_expense = useSelector((state) => state.expense.singleExpense);
   const factory_state = useSelector((state) => state.factory.factories);
-  const { date, purpose, amount } = single_expense;
+  const { date, purpose, amount,description } = single_expense;
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
       date: changeDateFormat(date) || "",
       purpose: purpose || "",
+      description : description || "",
       amount: amount || "",
     },
     validationSchema: dailyExpenseSchema,
@@ -101,6 +102,14 @@ const EditExpense = () => {
           {formik.touched.purpose && formik.errors.purpose}
         </div>
 
+        <CustomInput
+          type="text"
+          name="description"
+          onChange={formik.handleChange("description")}
+          onBlue={formik.handleBlur("description")}
+          value={formik.values.description}
+          placeholder="Enter description"
+        />
         <CustomInput
           type="number"
           name="amount"

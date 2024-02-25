@@ -155,6 +155,7 @@ const AddSell = () => {
     dispatch(getSingleCustomer(getCustomerId));
     dispatch(getFactories());
     dispatch(getProducts());
+    dispatch(getAllSellDetails())
   }, []);
 
   const all_sell = useSelector((state) => state.sell.sells);
@@ -239,6 +240,7 @@ const AddSell = () => {
   }
 
   const stockProduct = []
+
   for (let i = 0; i < product_state.length; i++) {
     let remainQty = product_state[i].quantity;
 
@@ -251,12 +253,12 @@ const AddSell = () => {
     if(remainQty !== 0)
     {
       stockProduct.push({
-        title:  product_state[i].title,
+        title:  product_state[i].title + " -- " + remainQty,
         id : product_state[i]._id
       });
     }
-   
   }
+
 
   useEffect(() => {
     let sum = 0;

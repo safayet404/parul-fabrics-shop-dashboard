@@ -26,6 +26,7 @@ import EditExpense from "./pages/EditExpense";
 import EditBalance from "./pages/EditBalance";
 import MillsBalance from "./pages/MillsBalance";
 import AddUser from "./pages/AddUser";
+import UserList from "./pages/UserList";
 function App() {
   return (
     <div className="App">
@@ -50,6 +51,8 @@ function App() {
             <Route path="mills" element={<Factory />}></Route>
             <Route path="add-mill" element={<AddMill />}></Route>
             <Route path="add-user" element={<AddUser />}></Route>
+            <Route path="add-user/:id" element={<AddUser />}></Route>
+            <Route path="user-list" element={<UserList />}></Route>
             <Route path="add-mill/:id" element={<AddMill />}></Route>
             
             <Route path="daily-expense" element={<AddExpense />}></Route>

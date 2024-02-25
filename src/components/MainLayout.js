@@ -44,14 +44,14 @@ const MainLayout = () => {
     }
   }, []);
 
-  useEffect(() => {
-    if(local_data !== null)
-    {
+  // useEffect(() => {
+  //   if(local_data !== null)
+  //   {
 
-      dispatch(singleUserByMail(local_data.email));
-    }
-  }, []);
-  const login_state = useSelector((state) => state.user.singleUserByMail);
+  //     dispatch(singleUserByMail(local_data.email));
+  //   }
+  // }, []);
+  // const login_state = useSelector((state) => state.user.singleUserByMail);
 
 
   const [collapsed, setCollapsed] = useState(false);
@@ -132,6 +132,11 @@ const MainLayout = () => {
                 label: "Add User",
               },
               {
+                key: "user-list",
+                icon: <AiFillFileAdd className="fs-4" />,
+                label: "User List",
+              },
+              {
                 key: "add-mill",
                 icon: <AiFillFileAdd className="fs-4" />,
                 label: "Add Yarn & Bills Factory",
@@ -187,7 +192,7 @@ const MainLayout = () => {
                 aria-expanded="false"
                 role="button"
               >
-                <h5> {login_state.name} </h5>
+                <h5> {local_data ? local_data.displayName : " "} </h5>
                 <p> {local_data ? local_data.email : " "} </p>
               </div>
               <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">

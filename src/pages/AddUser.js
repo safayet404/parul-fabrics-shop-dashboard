@@ -1,17 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import CustomInput from "../components/CustomInput";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { useDispatch } from "react-redux";
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { addUser } from "../features/dashboard-user/dashboardUserSlice";
+import { addUser, resetState, singleUser, updateUser } from "../features/dashboard-user/dashboardUserSlice";
 import app from "../utils/firebaseConfig";
 
 let schema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
   email: Yup.string().required("Email is required"),
-  password: Yup.string().required("Password is required"),
+  
   mobile: Yup.string().required("Mobile is required"),
   role: Yup.string().required("Role is required"),
   address: Yup.string().required("Address is required"),
@@ -22,38 +22,64 @@ const AddUser = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
-  const getFactoryId = location.pathname.split("/")[3];
+  const getUserId = location.pathname.split("/")[3];
+  useEffect(()=>{
+    if(getUserId !== undefined)
+    {
+      dispatch(singleUser(getUserId))
+    }
+    else
+    {
+      dispatch(resetState())
+    }
+  },[getUserId])
+  const single_state = useSelector((state)=>state.user.singleUser)
+  const {name,email,mobile,role,address} = single_state
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      name: "",
-      email: "",
-      password: "",
-      mobile: "",
-      role: "",
-      address: "",
+      name: name || "",
+      email: email || "",
+      password:  "",
+      mobile: mobile || "",
+      role: role || "",
+      address: address || "",
     },
     validationSchema: schema,
     onSubmit: (values) => {
-      dispatch(addUser(values));
-      createUserWithEmailAndPassword(auth, values.email, values.password)
-        .then((userCredential) => {
-          // Signed up
-          const user = userCredential.user;
-          // ...
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          // ..
-        });
+      const data = {id : getUserId, userData : values}
+      if(getUserId !== undefined)
+      {
+        dispatch(updateUser(data))
+        navigate("/admin/user-list")
+      }
+      else
+      {
+        dispatch(addUser(values));
+        createUserWithEmailAndPassword(auth, values.email, values.password)
+          .then((userCredential) => {
+            // Signed up
+            const user = userCredential.user;
+            updateProfile(user,{
+              displayName : values.name
+            })
+            // ...
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // ..
+          });
+          formik.resetForm()
+
+      }
     },
   });
   return (
     <div>
       <h3 className="mb-4">
-        {getFactoryId !== undefined ? "Edit" : "Add"} Factory
+        {getUserId !== undefined ? "Edit" : "Add"} User
       </h3>
       <div>
         <form onSubmit={formik.handleSubmit} className="mt-4">
@@ -127,7 +153,7 @@ const AddUser = () => {
             type="submit"
             className="btn btn-success border-0 rounded-3 my-4"
           >
-            {getFactoryId !== undefined ? "Update" : "Add"} Factory
+            {getUserId !== undefined ? "Update" : "Add"} User
           </button>
         </form>
       </div>

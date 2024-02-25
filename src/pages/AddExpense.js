@@ -36,6 +36,10 @@ const daily_expense = [
     dataIndex: "purpose",
   },
   {
+    title: "Description",
+    dataIndex: "description",
+  },
+  {
     title: "Amount",
     dataIndex: "amount",
   },
@@ -152,6 +156,7 @@ const AddExpense = () => {
       key: i + 1,
       date: changeDateFormat(expense_state[i].date),
       purpose: expense_state[i].purpose,
+      description: expense_state[i].description,
       amount: expense_state[i].amount,
       action: (
         <>
@@ -205,6 +210,7 @@ const AddExpense = () => {
       date: "",
       amount: "",
       purpose: "",
+      description : ""
     },
     validationSchema: dailyExpenseSchema,
     onSubmit: (values) => {
@@ -276,6 +282,8 @@ const AddExpense = () => {
                 {formik.touched.date && formik.errors.date}
               </div>
 
+              <div className="row">
+                <div className="col-6">
               <CustomInput
                 type="text"
                 name="purpose"
@@ -294,6 +302,21 @@ const AddExpense = () => {
                   );
                 })}
               </datalist>
+
+                </div>
+                <div className="col-6">
+                <CustomInput
+                className="mt-3"
+                type="text"
+                name="description"
+                onChange={formik.handleChange("description")}
+                onBlue={formik.handleBlur("description")}
+                value={formik.values.description}
+                placeholder="Enter the description if needed"
+              />
+                </div>
+              </div>
+
 
               <div className="error">
                 {formik.touched.purpose && formik.errors.purpose}

@@ -59,6 +59,7 @@ const initialState={
     users : [],
     singleUser : [],
     singleUserByMail : [],
+    deletedUser :[],
     isError : false,
     isLoading : false,
     isSuccess : false,
@@ -163,6 +164,8 @@ export const userSlice = createSlice({
             state.isSuccess = false
             state.message = action.error
         })
+
+        .addCase(resetState, () => initialState);
     }
 })
 

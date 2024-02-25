@@ -50,7 +50,7 @@ const deleteSingleReceiveData = async (id) => {
       `${base_url}receive/delete-single-receive-data/${id}`
     );
     if (response.status === 200) {
-      toast.error("Receive Data Deleted!");
+      toast.success("Receive Data Deleted!");
     }
     return response.data;
   } catch (error) {

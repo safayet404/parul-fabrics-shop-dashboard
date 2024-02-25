@@ -74,6 +74,7 @@ const deleteUser = async(id) =>{
         {
             toast.success("User Deleted Successfully !")
         }
+        return response.data
     }catch(error)
     {
         toast.error("Something Went Wrong !")

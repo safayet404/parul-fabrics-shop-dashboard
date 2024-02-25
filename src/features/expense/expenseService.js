@@ -45,6 +45,7 @@ const updateExpense = async (expense) => {
       {
         date: expense.expenseData.date,
         purpose: expense.expenseData.purpose,
+        description: expense.expenseData.description,
         amount: expense.expenseData.amount,
       }
     );
