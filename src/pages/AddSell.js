@@ -106,6 +106,7 @@ const AddSell = () => {
   const [rcvOpen, setRcvOpen] = useState(false);
   const [sellId, setSellId] = useState("");
   const [rcvId, setRcvId] = useState("");
+  const [updatedStock,setUpdatedStock] = useState([])
 
   let dueOrBalance = totalAmount - rcvTotalAmount;
   console.log(dueOrBalance);
@@ -239,8 +240,8 @@ const AddSell = () => {
     }
   }
 
+  
   const stockProduct = []
-
   for (let i = 0; i < product_state.length; i++) {
     let remainQty = product_state[i].quantity;
 

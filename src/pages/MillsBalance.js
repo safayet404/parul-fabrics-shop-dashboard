@@ -11,7 +11,7 @@ import { ClipLoader } from "react-spinners";
 const mill_balance = [
   {
     title: "SNo",
-    dataIndex: "key",
+    dataIndex: "sno",
   },
   {
     title: "Date",
@@ -45,11 +45,12 @@ const MillsBalance = () => {
   const factory_state = useSelector((state) => state.factory.singleFactory);
 
   const millBalanceData = [];
-
+  let serialNumber = 0
   for (let i = 0; i < expense_state.length; i++) {
     if (expense_state[i].purpose === factory_state.name) {
+      serialNumber ++
       millBalanceData.push({
-        key: i + 1,
+        sno: serialNumber,
         date: ChangeDateFormat(expense_state[i].date),
         amount: expense_state[i].amount,
         description: expense_state[i].description,

@@ -210,7 +210,7 @@ const AddExpense = () => {
       date: "",
       amount: "",
       purpose: "",
-      description : ""
+      description : "Not Applicable" || ""
     },
     validationSchema: dailyExpenseSchema,
     onSubmit: (values) => {
@@ -313,6 +313,7 @@ const AddExpense = () => {
                 onBlue={formik.handleBlur("description")}
                 value={formik.values.description}
                 placeholder="Enter the description if needed"
+                
               />
                 </div>
               </div>
@@ -328,7 +329,7 @@ const AddExpense = () => {
                 onChange={formik.handleChange("amount")}
                 onBlue={formik.handleBlur("amount")}
                 value={formik.values.amount}
-                placeholder="Enter the product amount"
+                placeholder="Enter the amount"
               />
 
               <div className="error">
@@ -443,7 +444,7 @@ const AddExpense = () => {
           performAction={() => {
             expenseDelete(expenseId);
           }}
-          title="Are you sure you want to delete sell data?"
+          title="Are you sure you want to delete this?"
         />
         <CustomModal
           open={rcvOpen}
@@ -451,7 +452,7 @@ const AddExpense = () => {
           performAction={() => {
             balanceDelete(rcvId);
           }}
-          title="Are you sure you want to delete receive data?"
+          title="Are you sure you want to delete this?"
         />
       </div>
     </div>

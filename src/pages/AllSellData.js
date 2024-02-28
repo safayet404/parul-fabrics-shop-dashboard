@@ -1,13 +1,13 @@
-import { Table } from "antd";
+import { Table,DatePicker  } from "antd";
 
 import { useDispatch, useSelector } from "react-redux";
-
 import { getAllSellDetails } from "../features/sell/sellSlice";
 import { useEffect, useState } from "react";
 
 import { getCustomers } from "../features/customer/customerSlice";
 import { ClipLoader } from "react-spinners";
 import { TbCurrencyTaka } from "react-icons/tb";
+
 
 const sell_column = [
   {
@@ -37,7 +37,10 @@ const sell_column = [
   },
 ];
 const AllSellData = () => {
+
   const [totalBill, setTotalBill] = useState(null);
+  const [fromDate, setFromDate] = useState(null);
+  const [toDate, setToDate] = useState(null);
   const dispatch = useDispatch();
   const changeDateFormat = (date) => {
     const newDate = new Date(date).toLocaleDateString();
@@ -54,9 +57,9 @@ const AllSellData = () => {
     dispatch(getCustomers());
   }, []);
 
-  const sellData = [];
+  const sell_Data = [];
   for (let index = 0; index < sell_state.length; index++) {
-    sellData.push({
+    sell_Data.push({
       key : index+1,
       date: changeDateFormat(sell_state[index].date),
       name: sell_state[index].customerId.name,
@@ -67,6 +70,8 @@ const AllSellData = () => {
     });
   }
 
+
+
   useEffect(() => {
     let sum = 0;
     for (let index = 0; index < sell_state.length; index++) {
@@ -74,6 +79,7 @@ const AllSellData = () => {
     }
     setTotalBill(sum);
   }, [sell_state]);
+
 
   return (
     <div>
@@ -87,11 +93,13 @@ const AllSellData = () => {
           <div>
             <Table
               columns={sell_column}
-              dataSource={sellData}
+              dataSource={sell_Data}
               scroll={{
                 x: 700,
               }}
             />
+          </div>
+          <div>
           </div>
         </div>
       )}
