@@ -10,11 +10,6 @@ import { getAllReceiveData } from "../features/receive/receiveSlice";
 import { ClipLoader } from "react-spinners";
 import { TbCurrencyTaka } from "react-icons/tb";
 
-
-
-const onChange = (pagination, filters, sorter, extra) => {
-  console.log('params', pagination, filters, sorter, extra);
-};
 const AllReceiveData = () => {
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
