@@ -204,14 +204,14 @@ const Customers = () => {
             >
               <BiEdit />
             </Link>
-            <button
+            {/* <button
               className="ms-3 fs-3 text-danger border-0 bg-transparent"
               onClick={() => {
                 showModal(customer_state[i]._id);
               }}
             >
               <AiFillDelete />
-            </button>
+            </button> */}
           </>
         ),
       });
