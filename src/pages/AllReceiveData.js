@@ -10,15 +10,7 @@ import { getAllReceiveData } from "../features/receive/receiveSlice";
 import { ClipLoader } from "react-spinners";
 import { TbCurrencyTaka } from "react-icons/tb";
 
-const filtersData = [
 
-
-   receiveData.map((index)=>{
-  text : index.name,
-    value : index.name
-   })
- 
-];
 const rcv_column = [
   {
     title: "SNo",
@@ -29,7 +21,10 @@ const rcv_column = [
   {
     title: "Customer Name",
     dataIndex: "name",
-    filters: filtersData,
+    filters: [
+       text : dataIndex,
+       value : dataIndex
+    ],
     filterMode: 'tree',
     filterSearch: true,
     onFilter: (value, record) => record.name.startsWith(value),
