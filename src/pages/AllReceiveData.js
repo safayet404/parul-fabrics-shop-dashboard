@@ -10,6 +10,13 @@ import { getAllReceiveData } from "../features/receive/receiveSlice";
 import { ClipLoader } from "react-spinners";
 import { TbCurrencyTaka } from "react-icons/tb";
 
+const uniqueNames = Array.from(new Set(receiveData.map(item => item.name)));
+
+// Generate filters array
+const filterData = uniqueNames.map(name => ({
+  text: name,
+  value: name,
+}));
 
 const rcv_column = [
   {
@@ -21,11 +28,7 @@ const rcv_column = [
   {
     title: "Customer Name",
     dataIndex: "name",
-    filters: [{
-       text : dataIndex,
-       value : dataIndex
-    }
-    ],
+    filters: filterData,
     filterMode: 'tree',
     filterSearch: true,
     onFilter: (value, record) => record.name.startsWith(value),
@@ -77,6 +80,7 @@ const AllReceiveData = () => {
           key : index + 1,
           date: changeDateFormat(receive_state[index].date),
           name: customer_state[j].name,
+          
 
           description: receive_state[index].description,
 
