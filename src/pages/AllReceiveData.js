@@ -27,6 +27,20 @@ const rcv_column = [
   {
     title: "Customer Name",
     dataIndex: "name",
+    filters: [
+      {
+        text: 'Joe',
+        value: 'Joe',
+      },
+      {
+        text: 'Category 1',
+        value: 'Category 1',
+      },
+      {
+        text: 'Category 2',
+        value: 'Category 2',
+      },
+    ],
     filterMode: 'tree',
     filterSearch: true,
     onFilter: (value, record) => record.name.startsWith(value),
