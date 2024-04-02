@@ -106,7 +106,7 @@ const AllReceiveData = () => {
           {" "}
           <h3 className="mb-4 title mt-4">Total Receive : {totalRcv} <TbCurrencyTaka/> </h3>
           <div>
-            <Table columns={rcv_column} dataSource={receiveData} scroll={{
+            <Table columns={rcv_column} onChange={onChange} dataSource={receiveData} scroll={{
                     x: 700,
                   }} />
           </div>
