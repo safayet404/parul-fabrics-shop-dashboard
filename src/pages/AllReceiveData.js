@@ -10,37 +10,26 @@ import { getAllReceiveData } from "../features/receive/receiveSlice";
 import { ClipLoader } from "react-spinners";
 import { TbCurrencyTaka } from "react-icons/tb";
 
+const filtersData = [
+
+
+   receiveData.map((index)=>{
+  text : index.name,
+    value : index.name
+   })
+ 
+];
 const rcv_column = [
   {
     title: "SNo",
     dataIndex: "key",
     sorter: (a, b) => a.key - b.key,
   },
-  {
-    title: "Date",
-    dataIndex: "date",
-    filterMode: 'tree',
-    filterSearch: true,
-    onFilter: (value, record) => record.name.startsWith(value),
-    width: '30%',
-  },
+ 
   {
     title: "Customer Name",
     dataIndex: "name",
-    filters: [
-      {
-        text: 'Joe',
-        value: 'Joe',
-      },
-      {
-        text: 'Category 1',
-        value: 'Category 1',
-      },
-      {
-        text: 'Category 2',
-        value: 'Category 2',
-      },
-    ],
+    filters: filtersData,
     filterMode: 'tree',
     filterSearch: true,
     onFilter: (value, record) => record.name.startsWith(value),
