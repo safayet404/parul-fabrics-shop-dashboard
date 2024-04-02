@@ -19,21 +19,40 @@ const rcv_column = [
   {
     title: "Date",
     dataIndex: "date",
+    filterMode: 'tree',
+    filterSearch: true,
+    onFilter: (value, record) => record.name.startsWith(value),
+    width: '30%',
   },
   {
     title: "Customer Name",
     dataIndex: "name",
+    filterMode: 'tree',
+    filterSearch: true,
+    onFilter: (value, record) => record.name.startsWith(value),
+    width: '30%',
   },
   {
     title: "Description",
     dataIndex: "description",
+    filterMode: 'tree',
+    filterSearch: true,
+    onFilter: (value, record) => record.name.startsWith(value),
+    width: '30%',
   },
 
   {
     title: "Amount",
     dataIndex: "amount",
+    filterMode: 'tree',
+    filterSearch: true,
+    onFilter: (value, record) => record.name.startsWith(value),
+    width: '30%',
   },
 ];
+const onChange = (pagination, filters, sorter, extra) => {
+  console.log('params', pagination, filters, sorter, extra);
+};
 const AllReceiveData = () => {
   const [totalRcv, setTotalRcv] = useState(null);
   const dispatch = useDispatch();
