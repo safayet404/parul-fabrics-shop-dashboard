@@ -21,9 +21,10 @@ const rcv_column = [
   {
     title: "Customer Name",
     dataIndex: "name",
-    filters: [
+    filters: [{
        text : dataIndex,
        value : dataIndex
+    }
     ],
     filterMode: 'tree',
     filterSearch: true,
