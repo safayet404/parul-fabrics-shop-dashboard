@@ -15,6 +15,11 @@ const sell_column = [
     dataIndex: "key",
     sorter: (a, b) => a.key - b.key,
   },
+   {
+    title: "Date",
+    dataIndex: "date",
+    sorter: (a, b) => a.key - b.key,
+  },
   {
     title: "Customer Name",
     dataIndex: "name",
