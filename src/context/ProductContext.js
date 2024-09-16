@@ -23,8 +23,10 @@ export const ProductProvider = ({ children }) => {
 
   const allSell = useSelector((state) => state.sell.sells);
   const sellLoader = useSelector((state) => state.sell.isLoading);
+  const {createdSellData} = useSelector((state) => state.sell);
   const customerState = useSelector((state) => state.customer.customers)
   const receiveState = useSelector((state) =>  state.receive.receives)
+  const {createdReceiveData} = useSelector((state) =>  state.receive)
 
 
   useEffect(() => {
@@ -76,7 +78,7 @@ export const ProductProvider = ({ children }) => {
     },0)
     setMarketDue(total)
     
-  }, [sellData]);
+  }, [sellData,createdSellData,createdReceiveData]);
 
 
 
