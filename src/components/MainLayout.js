@@ -107,6 +107,11 @@ const MainLayout = () => {
                 label: "Stock",
               },
               {
+                key: "due",
+                icon: <GiRolledCloth className="fs-4" />,
+                label: "All Due",
+              },
+              {
                 key: "add-customers",
                 icon: <AiFillFileAdd className="fs-4" />,
                 label: "Add Customers",
