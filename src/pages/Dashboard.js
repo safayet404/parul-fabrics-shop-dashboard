@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ClipLoader, RingLoader } from "react-spinners";
 import { Column } from "@ant-design/plots";
 import { Table } from "antd";
@@ -9,6 +9,7 @@ import ChangeDateFormat from "../components/ChangeDateFormat";
 import { getAllExpense } from "../features/expense/expenseSlice";
 import { getBalance } from "../features/balance/balanceSlice";
 import { TbCurrencyTaka } from "react-icons/tb";
+import { ProductContext } from "../context/ProductContext";
 
 const Dashboard = () => {
   const [stock, setStock] = useState(null);
@@ -19,6 +20,8 @@ const Dashboard = () => {
   const [balanceState, setBalanceState] = useState(
     rcvTotalAmount - totalAmount
   );
+
+  const { marketDue } = useContext(ProductContext);
 
   const sell_column = [
     {
@@ -126,7 +129,7 @@ const Dashboard = () => {
         salesByMonth[monthYearKey] = 0;
       }
 
-      salesByMonth[monthYearKey] += sell.totalPrice; // Assuming there is an amount field in your sell data
+      salesByMonth[monthYearKey] += sell.totalPrice; 
     });
 
     return Object.entries(salesByMonth).map(([monthYear, totalAmount]) => ({
@@ -191,14 +194,14 @@ const Dashboard = () => {
             <div>
               {" "}
               <p className="desc">Total Product Stock</p>
-              <h4 className="mb-0 sub-title">{stock}</h4>
+              <h4 className="mb-0 sub-title">{stock} YDS</h4>
             </div>
           )}
         </div>
         <div className="d-flex justify-content-between align-items-end flex-grow-1 bg-white p-3 roudned-3">
           <div>
-            <p className="desc">Users</p>
-            <h4 className="mb-0 sub-title">2 Person</h4>
+            <p className="desc">Market Due</p>
+            <h4 className="mb-0 sub-title">{marketDue} <TbCurrencyTaka/> </h4>
           </div>
         </div>
       </div>

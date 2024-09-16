@@ -15,9 +15,7 @@ import { Link, Outlet, useNavigate } from "react-router-dom";
 import useUserStore from "./StateManagement";
 import { getAuth, signOut } from "firebase/auth";
 import app from "../utils/firebaseConfig";
-import toast from "react-hot-toast";
-import { useDispatch, useSelector } from "react-redux";
-import { singleUserByMail } from "../features/dashboard-user/dashboardUserSlice";
+import { useDispatch } from "react-redux";
 const { Header, Sider, Content } = Layout;
 const MainLayout = () => {
   const auth = getAuth(app);
