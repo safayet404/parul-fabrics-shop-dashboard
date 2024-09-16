@@ -563,7 +563,7 @@ const AddExpense = () => {
           <div className="row">
             <div className="col-6">
               <h3 className="mb-4 title mt-4">
-                Total Bills : {totalAmount ? totalAmount : 0} <TbCurrencyTaka />
+                Bills : {totalAmount ? totalAmount : 0} <TbCurrencyTaka />
               </h3>
               {expenseLoader ? (
                 <div className="text-center mt-5">
@@ -583,7 +583,7 @@ const AddExpense = () => {
             </div>
             <div className="col-6">
               <h3 className="mb-4 title mt-4">
-                Total Receive Amount : {rcvTotalAmount ? rcvTotalAmount : 0}{" "}
+                Receive : {rcvTotalAmount ? rcvTotalAmount : 0}{" "}
                 <TbCurrencyTaka />
               </h3>
               {balanceLoader ? (
