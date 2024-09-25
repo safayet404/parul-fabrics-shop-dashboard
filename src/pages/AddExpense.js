@@ -423,7 +423,17 @@ const AddExpense = () => {
         <div className="row mb-5">
           <div className="col-6">
             <h2>
-              Balance : {rcvTotalAmount - totalAmount} <TbCurrencyTaka />{" "}
+              Balance :
+              {expenseLoader || balanceLoader ? (
+                <span>  .......</span>
+               
+              ) : (
+                <>
+                  <span>
+                    {rcvTotalAmount - totalAmount} <TbCurrencyTaka />
+                  </span>
+                </>
+              )}
             </h2>
           </div>
           <div className="col-6">
@@ -431,7 +441,7 @@ const AddExpense = () => {
           </div>
         </div>
         <div className="row">
-          <div className="col-6">
+          <div className="col-lg-6 col-md-12 col-sm-12">
             <h3 className="mb-4">Add Expense Info</h3>
 
             <form onSubmit={formik.handleSubmit}>
@@ -451,40 +461,37 @@ const AddExpense = () => {
 
               <div className="row">
                 <div className="col-6">
-              <CustomInput
-                type="text"
-                name="purpose"
-                onChange={formik.handleChange("purpose")}
-                onBlur={formik.handleBlur("purpose")}
-                value={formik.values.purpose}
-                placeholder="Enter purpose"
-                list="expense-purpose"
-              />
-              <datalist id="expense-purpose">
-                {factory_state.map((i, j) => {
-                  return (
-                    <option key={j} value={i.name}>
-                      {i.name}
-                    </option>
-                  );
-                })}
-              </datalist>
-
+                  <CustomInput
+                    type="text"
+                    name="purpose"
+                    onChange={formik.handleChange("purpose")}
+                    onBlur={formik.handleBlur("purpose")}
+                    value={formik.values.purpose}
+                    placeholder="Enter purpose"
+                    list="expense-purpose"
+                  />
+                  <datalist id="expense-purpose">
+                    {factory_state.map((i, j) => {
+                      return (
+                        <option key={j} value={i.name}>
+                          {i.name}
+                        </option>
+                      );
+                    })}
+                  </datalist>
                 </div>
                 <div className="col-6">
-                <CustomInput
-                className="mt-3"
-                type="text"
-                name="description"
-                onChange={formik.handleChange("description")}
-                onBlue={formik.handleBlur("description")}
-                value={formik.values.description}
-                placeholder="Enter the description if needed"
-                
-              />
+                  <CustomInput
+                    className="mt-3"
+                    type="text"
+                    name="description"
+                    onChange={formik.handleChange("description")}
+                    onBlue={formik.handleBlur("description")}
+                    value={formik.values.description}
+                    placeholder="Enter the description if needed"
+                  />
                 </div>
               </div>
-
 
               <div className="error">
                 {formik.touched.purpose && formik.errors.purpose}
@@ -512,7 +519,7 @@ const AddExpense = () => {
             </form>
           </div>
 
-          <div className="col-6">
+          <div className="col-lg-6 col-md-12 col-sm-12">
             <h3 className="mb-4">Add Receive Info</h3>
 
             <form onSubmit={RcvFormik.handleSubmit}>
@@ -561,7 +568,7 @@ const AddExpense = () => {
           </div>
 
           <div className="row">
-            <div className="col-6">
+            <div className="col-lg-6 col-md-12 col-sm-12">
               <h3 className="mb-4 title mt-4">
                 Bills : {totalAmount ? totalAmount : 0} <TbCurrencyTaka />
               </h3>
@@ -581,7 +588,7 @@ const AddExpense = () => {
                 </div>
               )}
             </div>
-            <div className="col-6">
+            <div className="col-lg-6 col-md-12 col-sm-12">
               <h3 className="mb-4 title mt-4">
                 Receive : {rcvTotalAmount ? rcvTotalAmount : 0}{" "}
                 <TbCurrencyTaka />

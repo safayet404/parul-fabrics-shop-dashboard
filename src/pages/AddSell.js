@@ -268,7 +268,7 @@ const AddSell = () => {
         sum = sum + sell_state[index].totalPrice;
       }
     }
-    console.log("total price", sum);
+    
     setTotalAmount(sum);
   }, [sell_state]);
 
@@ -326,15 +326,20 @@ const AddSell = () => {
         </div>
         <div className="col-6">
           <h2>
-            {" "}
-            {dueOrBalance < 0
+            {sellLoader || receiveLoader ? (<span>.....</span>) :
+            (
+              <>
+              <span> {dueOrBalance < 0
               ? `Total Advance Balance : ${-dueOrBalance} `
-              : `Total Due Amount : ${dueOrBalance}`}{" "} <TbCurrencyTaka/>
+              : `Total Due Amount : ${dueOrBalance}`}{" "} <TbCurrencyTaka/></span>
+              </>
+            )}
+           
           </h2>
         </div>
       </div>
       <div className="row">
-        <div className="col-6">
+        <div className="col-lg-6 col-md-12 col-sm-12">
           <h3 className="mb-4">Add Sells Info</h3>
 
           <form onSubmit={formik.handleSubmit}>
@@ -417,7 +422,7 @@ const AddSell = () => {
           </form>
         </div>
 
-        <div className="col-6">
+        <div className="col-lg-6 col-md-12 col-sm-12">
           <h3 className="mb-4">Add Receive Info</h3>
 
           <form onSubmit={RcvFormik.handleSubmit}>
@@ -466,7 +471,7 @@ const AddSell = () => {
         </div>
 
         <div className="row">
-          <div className="col-6">
+          <div className="col-lg-6 col-md-12 col-sm-12">
             {sellLoader ? (
               <div className="text-center mt-5">
                 <ClipLoader />
@@ -485,7 +490,7 @@ const AddSell = () => {
               </div>
             )}
           </div>
-          <div className="col-6">
+          <div className="col-lg-6 col-md-12 col-sm-12">
             {receiveLoader ? (
               <div className="text-center mt-5">
                 <ClipLoader />
